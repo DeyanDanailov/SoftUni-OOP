@@ -1,7 +1,7 @@
 ﻿
 namespace PizzaCalories.Common
 {
-    public class GlobalConstants
+    public static class GlobalConstants
     {
         public const string INVALID_DOUGH_TYPE = "Invalid type of dough.";
         public const string INVALID_DOUGH_WEIGHT = "Dough weight should be in the range [1..200].";
