@@ -22,7 +22,8 @@ namespace PizzaCalories.Models
             }
             set
             {
-                if (!(value == "White" || value == "Wholegrain"))
+                value = value.ToLower();
+                if (!(value == "white" || value == "wholegrain"))
                 {
                     throw new ArgumentException(Common.GlobalConstants.INVALID_DOUGH_TYPE);
                 }
@@ -37,7 +38,8 @@ namespace PizzaCalories.Models
             }
             set
             {
-                if (!(value == "Crispy" || value == "Chewy" || value == "Homemade"))
+                value = value.ToLower();
+                if (!(value == "crispy" || value == "chewy" || value == "homemade"))
                 {
                     throw new ArgumentException(Common.GlobalConstants.INVALID_DOUGH_TYPE);
                 }
@@ -59,22 +61,41 @@ namespace PizzaCalories.Models
                 this.weight = value;
             }
         }
-        public double GetDoughCalories(string flourType, string bakingTech, double weight)
-        { 
-            double calories = 2*weight;
-            switch (flourType)
+        public double Calories
+        {
+            get
             {
-                case "White":
+                return this.GetDoughCalories();
+            }
+        }
+        private double GetDoughCalories()
+        { 
+            double calories = 2*this.Weight;
+            switch (this.FlourType)
+            {
+                case "white":
                     calories *= 1.5;
                     break;
-                case "Wholegrain":
+                case "wholegrain":
                     calories *= 1.0;
-                    break;
-               
+                    break;              
                 default:
                     break;
             }
-
+            switch (this.BakingTech)
+            {
+                case "crispy":
+                    calories *= 0.9;
+                    break;
+                case "chewy":
+                    calories *= 1.1;
+                    break;
+                case "homemade":
+                    calories *= 1.0;
+                    break;
+                default:
+                    break;
+            }
 
             return calories;
         }

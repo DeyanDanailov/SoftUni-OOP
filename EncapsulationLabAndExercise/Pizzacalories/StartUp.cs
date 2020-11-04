@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using PizzaCalories.Models;
 
 namespace PizzaCalories
 {
@@ -6,23 +8,37 @@ namespace PizzaCalories
     {
         static void Main(string[] args)
         {
-            var command = Console.ReadLine();
-            while (command != "END")
+            
+            try
             {
-                var cmdArgs = command.Split();
-                var flourType = cmdArgs[1];
-                var bakingTech = cmdArgs[2];
-                var weight = double.Parse(cmdArgs[3]);
-                try
+                var pizzaArgs = Console.ReadLine().Split();
+                var pizzaName = pizzaArgs[1];
+
+                var doughArgs = Console.ReadLine().Split();
+                var flourType = doughArgs[1];
+                var bakingTech = doughArgs[2];
+                var doughWeight = double.Parse(doughArgs[3]);
+
+                var dough = new Dough(flourType, bakingTech, doughWeight);
+                var pizza = new Pizza(pizzaName,dough);
+                string command;
+                while ((command = Console.ReadLine()) != "END")
                 {
-                    var dough = new Models.Dough(flourType, bakingTech, weight);
+                    var toppingArgs = command.Split();
+                    var toppingType = toppingArgs[1];
+                    var toppingWeight = double.Parse(toppingArgs[2]);
+                    var topping = new Topping(toppingType, toppingWeight);
+                    pizza.AddTopping(topping);
                 }
-                catch (ArgumentException ae)
-                {
-                    Console.WriteLine(ae.Message); 
-                }
-                command = Console.ReadLine();
+                Console.WriteLine($"{pizza.Name} - {pizza.Calories:F2} Calories.");
             }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
+            
+
         }
     }
 }
