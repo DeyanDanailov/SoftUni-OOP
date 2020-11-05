@@ -39,9 +39,9 @@ namespace MilitaryElite.Models
             var sb = new StringBuilder();
             sb.AppendLine($"Name: {this.Firstname} {this.Lastname} Id: {this.Id} Salary: {this.Salary:F2}");
             sb.AppendLine("Privates:");
-            if (this.privates.Any())
+            if (this.Privates.Any())
             {
-                sb.AppendLine($" {String.Join(Environment.NewLine, this.privates)}");
+                sb.AppendLine($" {String.Join(Environment.NewLine, this.Privates)}");
             }
             return sb.ToString().TrimEnd();
         }

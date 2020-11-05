@@ -57,9 +57,9 @@ namespace MilitaryElite.Models
             sb.AppendLine($"Name: {this.Firstname} {this.Lastname} Id: {this.Id} Salary: {this.Salary:F2}");
             sb.AppendLine($"Corps: {this.Corps}");
             sb.AppendLine($"Missions:");
-            if (this.missions.Any())
+            if (this.Missions.Any())
             {
-                sb.AppendLine($" {String.Join(Environment.NewLine, this.missions)}");
+                sb.AppendLine($" {String.Join(Environment.NewLine, this.Missions)}");
             }
             return sb.ToString().TrimEnd();
         }
