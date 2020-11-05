@@ -3,30 +3,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Telephony
 {
     public class Smartphone : ICallable, IBrowsable
     {
 
-        public string Call(string number)
+        public void Call(string number)
         {
-
-            if (number.Any(c => char.IsLetter(c)))
-            {
-                return "Invalid number!";
-            }
-            else
-                return $"Calling... {number}";
+            Console.WriteLine(!ValidCallNumber(number)
+                ? "Invalid number!"
+                : $"Calling... {number}");
         }
-        public string Browse(string website)
+
+        public void Browse(string url)
         {
-            
-            if (website.Any(c => char.IsDigit(c)))
-            {
-                return "Invalid URL!";
-            } else
-            return $"Browsing: {website}!";
+            Console.WriteLine(!ValidUrlAddress(url)
+                ? "Invalid URL!"
+                : $"Browsing: {url}!");
+        }
+
+        private static bool ValidCallNumber(string callNumber)
+        {
+            return Regex.IsMatch(callNumber, "^\\d+$");
+        }
+
+        private static bool ValidUrlAddress(string urlAddress)
+        {
+            bool containsDigit = Regex.IsMatch(urlAddress, "\\d");
+            return !containsDigit;
         }
     }
 }

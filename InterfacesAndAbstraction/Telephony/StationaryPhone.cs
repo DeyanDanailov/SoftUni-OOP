@@ -2,20 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Telephony
 {
     public class StationaryPhone : ICallable
     {
-        public string Call(string number)
+        public void Call(string number)
         {
-
-            if (number.Any(c => char.IsLetter(c) ))
-            {
-                return "Invalid number!";
-            }
-            else
-                return $"Dialing... {number}";
+            Console.WriteLine(!ValidCallNumber(number)
+                ? "Invalid number!"
+                : $"Dialing... {number}");
+        }
+        private static bool ValidCallNumber(string callNumber)
+        {
+            return Regex.IsMatch(callNumber, "^\\d+$");
         }
     }
 }
