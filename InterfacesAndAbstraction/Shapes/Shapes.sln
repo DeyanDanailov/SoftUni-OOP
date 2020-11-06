@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Telephony", "..\Telephony\T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MilitaryElite", "..\MilitaryElite\MilitaryElite.csproj", "{986DD5E8-634A-433E-A931-62CDA0CE5621}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionHierarchy", "..\CollectionHierarchy\CollectionHierarchy.csproj", "{53401FBE-EB62-4CC4-B9C7-4AC1FB7BC242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CollectionHierarchy", "..\CollectionHierarchy\CollectionHierarchy.csproj", "{53401FBE-EB62-4CC4-B9C7-4AC1FB7BC242}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExplicitInterfaces", "..\ExplicitInterfaces\ExplicitInterfaces.csproj", "{E18EAF0E-E467-4FF1-82E4-9CE5CCEAD985}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{53401FBE-EB62-4CC4-B9C7-4AC1FB7BC242}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{53401FBE-EB62-4CC4-B9C7-4AC1FB7BC242}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{53401FBE-EB62-4CC4-B9C7-4AC1FB7BC242}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E18EAF0E-E467-4FF1-82E4-9CE5CCEAD985}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E18EAF0E-E467-4FF1-82E4-9CE5CCEAD985}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E18EAF0E-E467-4FF1-82E4-9CE5CCEAD985}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E18EAF0E-E467-4FF1-82E4-9CE5CCEAD985}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
