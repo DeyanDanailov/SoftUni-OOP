@@ -6,7 +6,7 @@ using MilitaryElite.Interfaces;
 
 namespace MilitaryElite.Models
 {
-    public class Commando : SpecializedSoldier
+    public class Commando : SpecializedSoldier, ICommando
     {
         public Commando()
         {
@@ -25,6 +25,8 @@ namespace MilitaryElite.Models
                 return this.missions;
             }
         }
+
+        HashSet<IMission> ICommando.missions { get; }
 
         public void ReadCommando(string[] cmdArgs, List<Soldier> allSoldiers)
         {
@@ -46,10 +48,13 @@ namespace MilitaryElite.Models
 
             }          
         }
-        public void CompleteMission(Mission mission)
+        public void CompleteMission(List<Mission> missions, Mission mission)
         {
-            mission.State = "Finished";
-         
+            if (mission.State == "inProgress")
+            {
+                mission.State = "Finished";
+            }
+            missions.Remove(mission);
         }
         public override string ToString()
         {

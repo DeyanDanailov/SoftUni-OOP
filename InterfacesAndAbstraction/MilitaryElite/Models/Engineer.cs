@@ -6,7 +6,7 @@ using MilitaryElite.Interfaces;
 
 namespace MilitaryElite.Models
 {
-    public class Engineer : SpecializedSoldier, ISoldier, ISalary, ICorps
+    public class Engineer : SpecializedSoldier, IEngineer
     {
         
         private List<Repair> repairs;
@@ -27,6 +27,9 @@ namespace MilitaryElite.Models
                 return this.repairs;
             }
         }
+
+        List<IRepair> IEngineer.repairs { get; }
+
         public void ReadEngineer(string[] cmdArgs, List<Soldier> allSoldiers)
         {
             var id = cmdArgs[1];

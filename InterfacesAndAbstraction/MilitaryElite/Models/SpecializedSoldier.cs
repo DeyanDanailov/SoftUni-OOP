@@ -2,7 +2,7 @@
 using System;
 namespace MilitaryElite.Models
 {
-    public abstract class SpecializedSoldier : Soldier, ISalary
+    public abstract class SpecializedSoldier : Soldier, IPrivate
     {
         public SpecializedSoldier()
         {

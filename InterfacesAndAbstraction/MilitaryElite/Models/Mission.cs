@@ -35,10 +35,9 @@ namespace MilitaryElite.Models
             }
         }
 
-        public void CompleteMission()
-        {
-            this.state = "Finished";
-        }
+       
+        
+
         public HashSet <Mission> ReadMission(string [] cmdArgs)
         {
             var missions = new HashSet<Mission>();
@@ -60,7 +59,10 @@ namespace MilitaryElite.Models
         public override string ToString()
         {
             var sb = new StringBuilder();
-            sb.AppendLine($"Code Name: {this.CodeName} State: {this.State}");
+            if (this.State == "inProgress")
+            {
+                sb.AppendLine($"Code Name: {this.CodeName} State: {this.State}");
+            }          
             return sb.ToString().TrimEnd();
         }
     }

@@ -6,7 +6,7 @@ using MilitaryElite.Interfaces;
 
 namespace MilitaryElite.Models
 {
-    public class LieutenantGeneral : Soldier, ISalary
+    public class LieutenantGeneral : Soldier, ILieutenantGeneral
     {
         private HashSet<Soldier> privates;
 
@@ -25,6 +25,9 @@ namespace MilitaryElite.Models
                 return this.privates;
             }
         }
+
+        HashSet<ISoldier> ILieutenantGeneral.Privates { get; }
+
         public void GetPrivates(string[] cmdArgs, List<Soldier> allSoldiers)
         {
             

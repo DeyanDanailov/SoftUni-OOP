@@ -3,7 +3,7 @@ using MilitaryElite.Interfaces;
 
 namespace MilitaryElite.Models
 {
-    public class Private : Soldier
+    public class Private : Soldier, IPrivate
     {
         public Private(string id, string firstname, string lastname, decimal salary)
             : base(id, firstname, lastname)
