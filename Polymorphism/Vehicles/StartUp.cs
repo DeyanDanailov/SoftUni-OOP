@@ -6,14 +6,10 @@ namespace Vehicles
     {
         static void Main(string[] args)
         {
-            var carArgs = Console.ReadLine().Split();
-            var truckArgs = Console.ReadLine().Split();
-            var busArgs = Console.ReadLine().Split();
+            Vehicle car, truck, bus;
+            ReadVehicles(out car, out truck, out bus);
             int n = int.Parse(Console.ReadLine());
-            Vehicle car = new Car(double.Parse(carArgs[1]), double.Parse(carArgs[2]), double.Parse(carArgs[3]));
-            Vehicle truck = new Truck(double.Parse(truckArgs[1]), double.Parse(truckArgs[2]), double.Parse(truckArgs[3]));
-            Vehicle bus = new Bus(double.Parse(busArgs[1]), double.Parse(busArgs[2]), double.Parse(busArgs[3]));
-            for (int i = 0; i <n; i++)
+            for (int i = 0; i < n; i++)
             {
                 var cmdArgs = Console.ReadLine().Split();
                 if (cmdArgs[1] == "Car")
@@ -33,6 +29,17 @@ namespace Vehicles
             PrintVehicle(truck);
             PrintVehicle(bus);
 
+        }
+
+        private static void ReadVehicles(out Vehicle car, out Vehicle truck, out Vehicle bus)
+        {
+            var carArgs = Console.ReadLine().Split();
+            var truckArgs = Console.ReadLine().Split();
+            var busArgs = Console.ReadLine().Split();
+
+            car = new Car(double.Parse(carArgs[1]), double.Parse(carArgs[2]), double.Parse(carArgs[3]));
+            truck = new Truck(double.Parse(truckArgs[1]), double.Parse(truckArgs[2]), double.Parse(truckArgs[3]));
+            bus = new Bus(double.Parse(busArgs[1]), double.Parse(busArgs[2]), double.Parse(busArgs[3]));
         }
 
         private static void VehicleAction(string[] cmdArgs, Vehicle vehicle )
