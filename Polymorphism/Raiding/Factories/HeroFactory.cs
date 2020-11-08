@@ -32,9 +32,6 @@ namespace Raiding.Factories
                 default:
                     throw new ArgumentException(ExceptionMessages.INVALID_HERO_EXCEPTION);                    
             }
-            
-
-
             return baseHero;
         }
     }
