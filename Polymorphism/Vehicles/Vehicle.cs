@@ -7,7 +7,7 @@ namespace Vehicles
         protected double fuelQuantity;
         protected double fuelConsumption;
         protected double tankCapacity;
-        
+
         public Vehicle(double fuelQuantity, double fuelConsumption, double tankCapacity)
         {
             this.TankCapacity = tankCapacity;
@@ -22,7 +22,7 @@ namespace Vehicles
             {
                 return this.fuelQuantity;
             }
-            set
+            private set
             {
                 if (value > this.TankCapacity)
                 {
@@ -34,14 +34,11 @@ namespace Vehicles
                 }
             }
         }
-        public double FuelConsumption { get; set; }
-        public double TankCapacity { get; set; }
+        public double FuelConsumption { get; private set; }
+        public double TankCapacity { get; private set; }
         public double AcFuelIncrease { get; set; }
-        public bool IsAcTurnedOn
-        {
-            get; set;
-        }
-        public virtual string Drive(double distance, double acFuelIncrease)
+        public bool IsAcTurnedOn { get; set; }
+        public string Drive(double distance, double acFuelIncrease)
         {
             var fuelNeeded = 0.0;
             if (this.IsAcTurnedOn)
