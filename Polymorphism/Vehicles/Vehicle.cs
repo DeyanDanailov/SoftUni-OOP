@@ -4,10 +4,7 @@ namespace Vehicles
 {
     public abstract class Vehicle
     {
-        protected double fuelQuantity;
-        protected double fuelConsumption;
-        protected double tankCapacity;
-
+        private double fuelQuantity;
         public Vehicle(double fuelQuantity, double fuelConsumption, double tankCapacity)
         {
             this.TankCapacity = tankCapacity;
@@ -22,7 +19,7 @@ namespace Vehicles
             {
                 return this.fuelQuantity;
             }
-            private set
+            protected set
             {
                 if (value > this.TankCapacity)
                 {

@@ -1,4 +1,6 @@
 ﻿using System;
+using Raiding.Core;
+using Raiding.Core.Contracts;
 
 namespace Raiding
 {
@@ -6,7 +8,8 @@ namespace Raiding
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            IEngine engine = new Engine();
+            engine.Run();
         }
     }
 }
