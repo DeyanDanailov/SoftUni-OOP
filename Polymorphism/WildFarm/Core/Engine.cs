@@ -22,37 +22,35 @@ namespace WildFarm.Core
         public void Run()
         {
             string command;
-           // int cnt = 0;
-            Animal animal = null;
+
+           
             while ((command = Console.ReadLine()) != "End")
             {
-                if (cnt % 2 == 0)
-                {
-                    var animalArgs = command.Split();
-                    animal = animalFactory.ProduceAnimal(animalArgs);
-                }
-                else
-                {
-                    var foodArgs = command.Split();
-                    BaseFood food = foodFactory.ProduceFood(foodArgs);
-                    Console.WriteLine(animal.MakeSound());
-                    if (animal.IsFoodAppropriate(food))
-                    {
-                        animal.EatFood(food.Quantity);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"{animal.GetType().Name} does not eat {food.GetType().Name}!");
-                    }
+                
+                var animalArgs = command.Split();
+                Animal animal = animalFactory.ProduceAnimal(animalArgs);
+                
+                    this.animals.Add(animal);
+                
 
-                    if (animal != null)
-                    {
-                        animals.Add(animal);
-                    }
+                var foodArgs = Console.ReadLine().Split();
+                Food food = foodFactory.ProduceFood(foodArgs);
+                Console.WriteLine(animal.MakeSound());
+                try
+                {
+                    animal.IsFoodAppropriate(food);
                 }
-                cnt++;
+                catch (ArgumentException ae)
+                {
+                    Console.WriteLine(ae.Message);
+                    continue;
+                }
             }
-            Console.WriteLine(String.Join(Environment.NewLine, animals));
+            foreach (var item in this.animals)
+            {
+                Console.WriteLine(item.ToString());
+            }
+            
         }
 
     }

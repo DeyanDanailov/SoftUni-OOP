@@ -7,6 +7,6 @@ namespace WildFarm.Models.Animals.Contracts
     {       
         double WeightIncrease { get; }
         string MakeSound();
-        bool IsFoodAppropriate(BaseFood food);
+        void IsFoodAppropriate(Food.Food food);
     }
 }

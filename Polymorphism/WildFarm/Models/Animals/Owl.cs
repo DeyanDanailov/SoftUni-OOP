@@ -1,4 +1,5 @@
 ﻿
+using System;
 using WildFarm.Models.Food;
 
 namespace WildFarm.Models.Animals
@@ -12,16 +13,16 @@ namespace WildFarm.Models.Animals
 
         public override double WeightIncrease { get; }
 
-        public override bool IsFoodAppropriate(BaseFood food)
+        public override void IsFoodAppropriate(Food.Food food)
         {
             var type = food.GetType().Name;
             if ( type == "Meat")
             {
-                return true;
+                this.EatFood(food.Quantity);
             }
             else
             {
-                return false;
+                throw new ArgumentException($"{this.GetType().Name} does not eat {food.GetType().Name}!");
             }
         }
 

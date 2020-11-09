@@ -2,10 +2,10 @@
 
 namespace WildFarm.Models.Food
 {
-    public abstract class BaseFood
+    public abstract class Food
 
     {
-        protected BaseFood(int quantity)
+        protected Food(int quantity)
         {
                 this.Quantity = quantity;
         }

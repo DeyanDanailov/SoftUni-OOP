@@ -2,7 +2,7 @@
 
 namespace WildFarm.Models.Food
 {
-    public class Seeds : BaseFood
+    public class Seeds : Food
     {
         public Seeds(int quantity) 
             : base(quantity)

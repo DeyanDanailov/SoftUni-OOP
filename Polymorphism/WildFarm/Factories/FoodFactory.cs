@@ -6,9 +6,9 @@ namespace WildFarm.Factories
 {
     public class FoodFactory
     {
-        public BaseFood ProduceFood(string[] foodArgs)
+        public Food ProduceFood(string[] foodArgs)
         {
-            BaseFood food = null;
+            Food food = null;
             var type = foodArgs[0];
             int quantity = int.Parse(foodArgs[1]);
             switch (type)
@@ -26,7 +26,7 @@ namespace WildFarm.Factories
                     food = new Seeds(quantity);
                     break;
                 default:
-                    throw new ArgumentException("Invalid food type!");
+                    throw new ArgumentException($"Invalid input!");
             }
             return food;
         }

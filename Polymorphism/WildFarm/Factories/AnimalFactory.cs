@@ -57,7 +57,7 @@ namespace WildFarm.Factories
                     }
                     break;
                 default:
-                    throw new ArgumentException("Invalid animal type!");
+                    throw new ArgumentException($"Invalid input!");
             }
             return animal;
         }

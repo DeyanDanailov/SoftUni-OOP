@@ -14,7 +14,7 @@ namespace WildFarm.Models
         }
         public string Name { get; private set; }
         public double Weight { get; private set; }
-        public int FoodEaten { get; private set; }
+        public int FoodEaten { get; set; }
         public abstract double WeightIncrease { get; }
 
         public abstract string MakeSound();
@@ -24,6 +24,6 @@ namespace WildFarm.Models
             this.FoodEaten += quantity;
         }
 
-        public abstract bool IsFoodAppropriate(BaseFood food);
+        public abstract void IsFoodAppropriate(Food.Food food);
     }
 }

@@ -13,17 +13,9 @@ namespace WildFarm.Models.Animals
 
         public override double WeightIncrease { get; }
 
-        public override bool IsFoodAppropriate(BaseFood food)
+        public override void IsFoodAppropriate(Food.Food food)
         {
-            var type = food.GetType().Name;
-            if (type == "Vegetable" || type == "Fruit" || type == "Seeds" || type == "Meat")
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            this.EatFood(food.Quantity);
         }
 
         public override string MakeSound()
