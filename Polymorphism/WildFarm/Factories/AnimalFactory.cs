@@ -1,5 +1,6 @@
 ﻿
 
+using System;
 using WildFarm.Models;
 using WildFarm.Models.Animals;
 
@@ -56,7 +57,7 @@ namespace WildFarm.Factories
                     }
                     break;
                 default:
-                    break;
+                    throw new ArgumentException("Invalid animal type!");
             }
             return animal;
         }

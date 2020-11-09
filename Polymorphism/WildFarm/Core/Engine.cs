@@ -13,29 +13,28 @@ namespace WildFarm.Core
         private ICollection<Animal> animals;
         public Engine()
         {
-            this.AnimalFactory = new AnimalFactory();
-            this.FoodFactory = new FoodFactory();
+            this.animalFactory = new AnimalFactory();
+            this.foodFactory = new FoodFactory();
             this.animals = new List<Animal>();
         }
-        public AnimalFactory AnimalFactory { get; }
-        public FoodFactory FoodFactory { get; }
+        private AnimalFactory animalFactory { get; }
+        private FoodFactory foodFactory { get; }
         public void Run()
         {
             string command;
-            int cnt = 0;
+           // int cnt = 0;
             Animal animal = null;
             while ((command = Console.ReadLine()) != "End")
             {
-               
                 if (cnt % 2 == 0)
                 {
-                    var animalArgs = command.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
-                    animal = AnimalFactory.ProduceAnimal(animalArgs);
+                    var animalArgs = command.Split();
+                    animal = animalFactory.ProduceAnimal(animalArgs);
                 }
                 else
                 {
-                    var foodArgs = command.Split(' ', StringSplitOptions.RemoveEmptyEntries).ToArray();
-                    BaseFood food = FoodFactory.ProduceFood(foodArgs);
+                    var foodArgs = command.Split();
+                    BaseFood food = foodFactory.ProduceFood(foodArgs);
                     Console.WriteLine(animal.MakeSound());
                     if (animal.IsFoodAppropriate(food))
                     {
@@ -45,12 +44,16 @@ namespace WildFarm.Core
                     {
                         Console.WriteLine($"{animal.GetType().Name} does not eat {food.GetType().Name}!");
                     }
-                    animals.Add(animal);
+
+                    if (animal != null)
+                    {
+                        animals.Add(animal);
+                    }
                 }
                 cnt++;
             }
             Console.WriteLine(String.Join(Environment.NewLine, animals));
         }
-        
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿
+using System;
 using WildFarm.Models.Food;
 
 namespace WildFarm.Factories
@@ -25,7 +26,7 @@ namespace WildFarm.Factories
                     food = new Seeds(quantity);
                     break;
                 default:
-                    break;
+                    throw new ArgumentException("Invalid food type!");
             }
             return food;
         }

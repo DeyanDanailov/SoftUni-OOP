@@ -7,7 +7,7 @@ namespace WildFarm.Models
 {
     public abstract class Animal : IAnimal
     {
-        public Animal(string name, double weight)
+        protected Animal(string name, double weight)
         {
             this.Name = name;
             this.Weight = weight;

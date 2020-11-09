@@ -15,7 +15,15 @@ namespace WildFarm.Models.Animals
 
         public override bool IsFoodAppropriate(BaseFood food)
         {
-            return true;
+            var type = food.GetType().Name;
+            if (type == "Vegetable" || type == "Fruit" || type == "Seeds" || type == "Meat")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override string MakeSound()
