@@ -22,22 +22,16 @@ namespace WildFarm.Core
         public void Run()
         {
             string command;
-
-           
             while ((command = Console.ReadLine()) != "End")
-            {
-                
-                var animalArgs = command.Split();
-                Animal animal = animalFactory.ProduceAnimal(animalArgs);
-                
-                    this.animals.Add(animal);
-                
-
-                var foodArgs = Console.ReadLine().Split();
-                Food food = foodFactory.ProduceFood(foodArgs);
-                Console.WriteLine(animal.MakeSound());
+            {                
                 try
                 {
+                    var animalArgs = command.Split();
+                    Animal animal = animalFactory.ProduceAnimal(animalArgs);
+                    this.animals.Add(animal);
+                    var foodArgs = Console.ReadLine().Split();
+                    Food food = foodFactory.ProduceFood(foodArgs);
+                    Console.WriteLine(animal.MakeSound());
                     animal.IsFoodAppropriate(food);
                 }
                 catch (ArgumentException ae)
@@ -50,7 +44,7 @@ namespace WildFarm.Core
             {
                 Console.WriteLine(item.ToString());
             }
-            
+
         }
 
     }
