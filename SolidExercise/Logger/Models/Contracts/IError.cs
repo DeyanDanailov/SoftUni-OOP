@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
+using System;
+using Logger.Models.Enumerations;
 
 namespace Logger.Models.Contracts
 {
-    interface IError
+    public interface IError
     {
+        DateTime DateTime { get; }
+        string Message { get; }
+        Level Level { get; }
     }
 }

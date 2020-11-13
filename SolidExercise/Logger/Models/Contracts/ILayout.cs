@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
 
 namespace Logger.Models.Contracts
 {
-    interface ILayout
+    public interface ILayout
     {
+        string Format { get; }
     }
 }

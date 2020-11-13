@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Text;
 using Logger.Models.Contracts;
 
 namespace Logger.Models
@@ -15,7 +16,24 @@ namespace Logger.Models
 
         public void Log(IError error)
         {
-            throw new System.NotImplementedException();
+            foreach  (IAppender appender in this.appenders)
+            {
+                if (appender.Level <= error.Level)
+                {
+                    appender.Append(error);
+                }
+                
+            }
+        }
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine("Logger info");
+            foreach (IAppender appender in this.appenders)
+            {
+                sb.AppendLine(appender.ToString());
+            }
+            return sb.ToString().TrimEnd();
         }
     }
 }

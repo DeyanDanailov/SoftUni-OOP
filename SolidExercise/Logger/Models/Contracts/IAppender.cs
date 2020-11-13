@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
+using Logger.Models.Enumerations;
 
 namespace Logger.Models.Contracts
 {
-    interface IAppender
+     public interface IAppender
     {
+        ILayout Layout { get; }
+        Level Level { get; }
+        long MessagesAppended { get; }
+        void Append(IError error);
     }
 }
