@@ -1,19 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-
+using EasterRaces.Models.Drivers.Entities;
 namespace EasterRaces.Repositories.Entities
 {
-    public class DriverRepository<Driver> : Repository<Driver>
+    public class DriverRepository<IDriver> : Repository<IDriver>
     {
-        public override Driver GetByName(string name)
-        {
-            foreach (var item in this.Models)
-            {
-                if (item.Name == name)
-                {
-
-                }
-            }
-        }
+        
     }
 }

@@ -7,12 +7,12 @@ namespace EasterRaces.Repositories.Entities
 {
     public abstract class Repository<T> : IRepository<T>
     {
-        protected ICollection<T> Models;
+       
         public Repository()
         {       
             this.Models = new List<T>();
         }
-
+        public ICollection<T> Models { get; protected set; }
         public void Add(T model)
         {
             this.Models.Add(model);
@@ -23,7 +23,10 @@ namespace EasterRaces.Repositories.Entities
             return (IReadOnlyCollection <T>)this.Models;
         }
 
-        public T GetByName(string name);
+        public abstract T GetByName(string name);
+        
+            
+        
                    
         public bool Remove(T model)
         {
