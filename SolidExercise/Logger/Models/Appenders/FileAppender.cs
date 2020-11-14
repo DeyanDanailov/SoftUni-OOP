@@ -27,7 +27,7 @@ namespace Logger.Models.Appenders
 
             string formattedMessage = this.File.Write(this.Layout, error);
 
-            System.IO.File.WriteAllText(this.File.Path, formattedMessage);
+            System.IO.File.AppendAllText(this.File.Path, formattedMessage);
             this.MessagesAppended++;
         }
         public override string ToString()

@@ -27,7 +27,7 @@ namespace Logger.Models.IOManagement
 
         public void EnsureDirectoryAndFileExist()
         {
-            if (Directory.Exists(this.CurrentDirectoryPath))
+            if (!Directory.Exists(this.CurrentDirectoryPath))
             {
                 Directory.CreateDirectory(this.CurrentDirectoryPath);
             }

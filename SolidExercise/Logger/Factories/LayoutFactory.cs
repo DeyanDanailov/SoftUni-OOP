@@ -18,6 +18,10 @@ namespace Logger.Factories
             {
                 layout = new XmlLayout();
             }
+            else if (type == "JsonLayout")
+            {
+                layout = new JsonLayout();
+            }
             else
             {
                 throw new ArgumentException("Invalid layout type!");

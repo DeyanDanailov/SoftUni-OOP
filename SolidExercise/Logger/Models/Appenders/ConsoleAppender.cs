@@ -2,6 +2,7 @@
 
 using System;
 using System.Globalization;
+using Logger.Common;
 using Logger.Models.Contracts;
 using Logger.Models.Enumerations;
 
@@ -27,7 +28,7 @@ namespace Logger.Models.Appenders
             string message = error.Message;
             Level level = error.Level;
 
-            string formattedMessage = String.Format(format, dateTime.ToString("M/dd/yyyy H:mm:ss tt",
+            string formattedMessage = String.Format(format, dateTime.ToString(GlobalConstants.DATE_FORMAT,
                 CultureInfo.InvariantCulture),
                 message, level.ToString());
 

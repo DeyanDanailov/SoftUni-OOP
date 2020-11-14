@@ -4,6 +4,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using Logger.Common;
 using Logger.Models.Contracts;
 using Logger.Models.Enumerations;
 using Logger.Models.IOManagement;
@@ -29,9 +30,9 @@ namespace Logger.Models.Files
             string message = error.Message;
             Level level = error.Level;
 
-            string formattedMessage = String.Format(format, dateTime.ToString("M/dd/yyyy H:mm:ss tt",
+            string formattedMessage = String.Format(format, dateTime.ToString(GlobalConstants.DATE_FORMAT,
                 CultureInfo.InvariantCulture),
-                message, level.ToString());
+                message, level.ToString()) + Environment.NewLine;
 
             return formattedMessage;
         }

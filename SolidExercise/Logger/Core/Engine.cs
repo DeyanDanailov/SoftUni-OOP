@@ -12,7 +12,7 @@ namespace Logger.Core
     {
         private ILogger logger;
         private ErrorFactory errorFactory;
-        private IError error;
+        //private IError error;
 
         public Engine()
         {
@@ -29,7 +29,7 @@ namespace Logger.Core
             while ((input = Console.ReadLine()) != "END")
             {
                 string[] inputArgs = input
-                    .Split(' ', StringSplitOptions.RemoveEmptyEntries)
+                    .Split('|', StringSplitOptions.RemoveEmptyEntries)
                     .ToArray();
                 string level = inputArgs[0];
                 string dateTime = inputArgs[1];
