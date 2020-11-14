@@ -5,29 +5,31 @@ using EasterRaces.Repositories.Contracts;
 
 namespace EasterRaces.Repositories.Entities
 {
-    public class Repository<T> : IRepository<T>
+    public abstract class Repository<T> : IRepository<T>
     {
-        private ICollection<T> models;
+        protected ICollection<T> Models;
+        public Repository()
+        {       
+            this.Models = new List<T>();
+        }
+
         public void Add(T model)
         {
-            this.models.Add(model);
+            this.Models.Add(model);
         }
 
-        public System.Collections.Generic.IReadOnlyCollection<T> GetAll()
+        public IReadOnlyCollection<T> GetAll()
         {
-            return (IReadOnlyCollection < T >) models;
+            return (IReadOnlyCollection <T>)this.Models;
         }
 
-        public T GetByName(string name)
-        {
-            return this.models.Where(m => m.GetType().Name == name).FirstOrDefault();
-        }
-
+        public T GetByName(string name);
+                   
         public bool Remove(T model)
         {
-            if (this.models.Contains(model))
+            if (this.Models.Contains(model))
             {
-                this.models.Remove(model);
+                this.Models.Remove(model);
                 return true;
             }
             return false;
