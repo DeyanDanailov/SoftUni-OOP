@@ -11,12 +11,11 @@ namespace EasterRaces.Repositories.Entities
     {
         public override ICar GetByName(string name)
         {
-            //var list = new List<ICar>(this.Models);
-            var type = typeof(Car);
+            var type = typeof(ICar);
             var modelProperty = type.GetProperty("Model");
             foreach (var car in this.models)
             {
-                string modelValue = (string)modelProperty.GetValue(car);
+                string modelValue = (string)modelProperty?.GetValue(car);
                 if (modelValue == name)
                 {
                     return car;
