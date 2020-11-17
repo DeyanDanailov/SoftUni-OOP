@@ -12,7 +12,7 @@ namespace AuthorProblem
             tracker.PrintMethodsByAuthor();
         }
         [Author("Dido")]
-        private static void Print()
+        public static void Print()
         {
             Console.WriteLine("Dido e pich");
         }
