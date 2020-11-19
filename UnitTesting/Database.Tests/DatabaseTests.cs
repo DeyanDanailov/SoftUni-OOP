@@ -36,5 +36,31 @@ namespace Tests
             Assert.That(() => this.database = new Database.Database(data),
                 Throws.InvalidOperationException.With.Message.EqualTo("Array's capacity must be exactly 16 integers!"));
         }
+        [Test]
+        public void AddShouldIncreaseCountWhenAdded()
+        {
+            //Arrange
+            int element = 4;
+            //Action
+            this.database.Add(element);
+            int expextedCount = 3;
+
+            //Assert
+            Assert.AreEqual(expextedCount, this.database.Count);
+        }
+        [Test]
+        public void AddShouldThrowExceptionWhenDatabaseIsFull()
+        {
+            for (int i = 3; i < 17; i++)
+            {
+                this.database.Add(i); 
+            }
+            //collection is full
+
+            //Assert
+            Assert.That(() => this.database.Add(17),
+                Throws.InvalidOperationException.With.Message
+                .EqualTo("Array's capacity must be exactly 16 integers!"));
+        }
     }
 }
