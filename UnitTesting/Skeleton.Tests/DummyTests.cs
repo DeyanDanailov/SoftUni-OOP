@@ -3,13 +3,15 @@
 [TestFixture]
 public class DummyTests
 {
+    private const int EXPERIENCE = 20;
     private Dummy deadDummy;
     private Dummy aliveDummy;
+
     [SetUp]
     public void SetAliveAndDeadDummy()
     {
-        this.aliveDummy = new Dummy(20, 20);
-        this.deadDummy = new Dummy(0, 20);
+        this.aliveDummy = new Dummy(20, EXPERIENCE);
+        this.deadDummy = new Dummy(0, EXPERIENCE);
     }
     [Test]
     public void DummyShouldLoseHealthAfterAttack()
@@ -39,7 +41,7 @@ public class DummyTests
         var exp = this.deadDummy.GiveExperience();
 
         //Assert
-        Assert.AreEqual(exp, 20);
+        Assert.AreEqual(exp, EXPERIENCE);
     }
     [Test]
     public void AliveDummyCannotGiveExperience()
