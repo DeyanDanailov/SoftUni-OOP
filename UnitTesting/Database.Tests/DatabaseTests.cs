@@ -4,13 +4,13 @@ namespace Tests
 {
     public class DatabaseTests
     {
-        private Database.Database database;
+        private Database database;
         private readonly int[] initialdata = new int[] { 1, 2 };
 
         [SetUp]
         public void Setup()
         {
-            this.database = new Database.Database(initialdata);
+            this.database = new Database(initialdata);
         }
 
         [TestCase(new int[] { 1,2,3})]
@@ -21,7 +21,7 @@ namespace Tests
             //int[] data = new int[] {1,2,3 };
 
             //Act
-            var database = new Database.Database (data);
+            var database = new Database (data);
 
             //Assert
             Assert.AreEqual(data.Length, database.Count);
@@ -33,7 +33,7 @@ namespace Tests
             int[] data = new int[17];
 
             //Assert
-            Assert.That(() => this.database = new Database.Database(data),
+            Assert.That(() => this.database = new Database(data),
                 Throws.InvalidOperationException.With.Message.EqualTo("Array's capacity must be exactly 16 integers!"));
         }
         [Test]
@@ -61,6 +61,41 @@ namespace Tests
             Assert.That(() => this.database.Add(17),
                 Throws.InvalidOperationException.With.Message
                 .EqualTo("Array's capacity must be exactly 16 integers!"));
+        }
+        [Test]
+        public void RemoveShouldDecreaseCountWhenSuccess()
+        {
+            //Arrange
+            var expectedCount = 1;
+
+            //Action
+            this.database.Remove();
+            
+            //Assert
+            Assert.AreEqual(expectedCount, this.database.Count);
+        }
+        [Test]
+        public void RemoveShouldThrowExceptionWhenDatabaseIsEmpty()
+        {
+            //Action
+            this.database.Remove();
+            this.database.Remove();
+
+            //Assert
+            Assert.That(() => this.database.Remove(),
+                Throws.InvalidOperationException
+                .With.Message.EqualTo("The collection is empty!"));
+        }
+        [TestCase(new int[3] { 1,2,3})]
+        [TestCase(new int[0])]
+        [TestCase(new int[16] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 })]
+        public void FetchShouldReturnCopyOfData(int[] expectedData)
+        {
+            this.database = new Database(expectedData);
+            int[] actualData = this.database.Fetch();
+
+            //Assert
+            CollectionAssert.AreEqual(expectedData, actualData);
         }
     }
 }
