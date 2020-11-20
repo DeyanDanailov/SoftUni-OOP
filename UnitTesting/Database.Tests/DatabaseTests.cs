@@ -4,13 +4,13 @@ namespace Tests
 {
     public class DatabaseTests
     {
-        private Database database;
+        private Database.Database database;
         private readonly int[] initialdata = new int[] { 1, 2 };
 
         [SetUp]
         public void Setup()
         {
-            this.database = new Database(initialdata);
+            this.database = new Database.Database(initialdata);
         }
 
         [TestCase(new int[] { 1,2,3})]
@@ -21,7 +21,7 @@ namespace Tests
             //int[] data = new int[] {1,2,3 };
 
             //Act
-            var database = new Database (data);
+            var database = new Database.Database (data);
 
             //Assert
             Assert.AreEqual(data.Length, database.Count);
@@ -33,7 +33,7 @@ namespace Tests
             int[] data = new int[17];
 
             //Assert
-            Assert.That(() => this.database = new Database(data),
+            Assert.That(() => this.database = new Database.Database(data),
                 Throws.InvalidOperationException.With.Message.EqualTo("Array's capacity must be exactly 16 integers!"));
         }
         [Test]
@@ -91,7 +91,7 @@ namespace Tests
         [TestCase(new int[16] {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 })]
         public void FetchShouldReturnCopyOfData(int[] expectedData)
         {
-            this.database = new Database(expectedData);
+            this.database = new Database.Database(expectedData);
             int[] actualData = this.database.Fetch();
 
             //Assert
