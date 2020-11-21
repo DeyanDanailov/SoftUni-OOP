@@ -28,7 +28,9 @@ namespace Tests
 
             //Assert
             Assert.That(() => this.database = new ExtendedDatabase.ExtendedDatabase(data),
-                Throws.ArgumentException.With.Message.EqualTo("Provided data length should be in range [0..16]!"));
+                Throws.ArgumentException
+                .With.Message
+                .EqualTo("Provided data length should be in range [0..16]!"));
         }
         [Test]
         public void AddRangeShouldThrowExceptionWhenDatabaseIsFull()
@@ -121,8 +123,13 @@ namespace Tests
         [TestCase("Pesho")]
         public void FindByUserNameShouldReturnPersonIfNameIsInTheCollection(string name)
         {
+            //Arrrange
             var expected = this.persons.First(p => p.UserName == name);
+
+            //Act
             var actual = database.FindByUsername(name);
+
+            //Assert
             Assert.AreEqual(expected, actual);
         }
         [TestCase(-1)]
@@ -142,8 +149,13 @@ namespace Tests
         [TestCase(1111)]
         public void FindByUserIdShouldReturnPersonIfIdIsInTheCollection(long id)
         {
+            //Arrange
             var expected = this.persons.First(p => p.Id == id);
+
+            //Act
             var actual = database.FindById(id);
+
+            //Assert
             Assert.AreEqual(expected, actual);
         }
     }
