@@ -3,7 +3,6 @@ using FightingArena;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Tests
 {
@@ -45,10 +44,28 @@ namespace Tests
         }
 
         [Test]
+        public void EnrollShouldThrowExcWhenWarriorHasSameName()
+        {
+            this.arena.Enroll(warrior);
+            Assert.Throws<InvalidOperationException>(() =>
+            this.arena.Enroll(new Warrior("Sudjuka", 78,90)),
+                INVALID_WARRIOR_ENROLL);
+        }
+
+        [Test]
         public void EnrollShouldAddWarrior()
         {
             this.arena.Enroll(warrior);
             Assert.That(this.arena.Warriors, Has.Member(this.warrior));
+        }
+
+        [Test]
+        public void EnrollShouldIncreaseCount()
+        {
+            var expectedCount = 2;
+            this.arena.Enroll(this.warrior);
+            this.arena.Enroll(this.secondWarrior);
+            Assert.AreEqual(expectedCount, this.arena.Count);
         }
 
         [Test]
@@ -60,40 +77,46 @@ namespace Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("Leshpera", "Bastuna")]
-        [TestCase("Sudjuka", "Dimitrichko")]
+        [TestCase("Leshpera", "Bastuna")]       
         public void FightShouldThrowExceptionIfAttackerIsNotInCollection(string attackerName, string defenderName)
         {
             //Arrange
             this.arena.Enroll(this.warrior);
             this.arena.Enroll(this.secondWarrior);
-            string missingName = String.Empty;
-            if (this.arena.Warriors.Any(w=>w.Name != attackerName))
-            {
-                missingName = attackerName;
-            }
-            else
-            {
-                missingName = defenderName;
-            }
-           
+
             //Assert
-            Assert.Throws<InvalidOperationException>(() => arena.Fight(attackerName, defenderName), // Act
-                $"There is no fighter with name {0} enrolled for the fights!", missingName);
+            Assert.Throws<InvalidOperationException>(() => arena.Fight(attackerName, defenderName)); //Act
 
         }
 
-        //[TestCase("Sudjuka", "Bastuna")]
-        //public void FightShouldGetAttackIfBothAreInCollection(string attackerName, string defenderName)
-        //{
-        //    Warrior attacker = this.arena.Warriors
-        //        .FirstOrDefault(w => w.Name == attackerName);
-        //    Warrior defender = this.arena.Warriors
-        //        .FirstOrDefault(w => w.Name == defenderName);
-        //    warrior.Attack(secondWarrior);
+        [TestCase("Sudjuka", "Dimitrichko")]
+        public void FightShouldThrowExceptionIfdeffenderIsNotInCollection(string attackerName, string defenderName)
+        {
+            //Arrange
+            this.arena.Enroll(this.warrior);
+            this.arena.Enroll(this.secondWarrior);
+            
+            //Assert
+            Assert.Throws<InvalidOperationException>(() => arena.Fight(attackerName, defenderName)); //Act
 
-        //    Assert.Throws<InvalidOperationException>(() => attacker.Attack(defender),
-        //        "Your HP is too low in order to attack other warriors!");
-        //}
+        }
+        [TestCase("Duhcho", "Bastuna")]
+        public void FightShouldGetAttackIfBothAreInCollection(string attackerName, string defenderName)
+        {
+            //Arrange
+            this.arena.Enroll(this.warrior);
+            this.arena.Enroll(this.secondWarrior);
+            var megaDeffender = new Warrior("Duhcho", 40, 100);
+            this.arena.Enroll(megaDeffender);
+            var expAttHP = megaDeffender.HP - this.secondWarrior.Damage;
+            var expDeffHP = this.secondWarrior.HP - megaDeffender.Damage;
+
+            //Act
+            this.arena.Fight(attackerName, defenderName);
+
+            //Assert
+            Assert.AreEqual(expAttHP, megaDeffender.HP);
+            Assert.AreEqual(expDeffHP, this.secondWarrior.HP);
+        }
     }
 }

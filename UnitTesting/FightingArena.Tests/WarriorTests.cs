@@ -14,6 +14,7 @@ namespace Tests
         private const int MIN_ATTACK_HP = 30;
         private Warrior warrior;
         private Warrior secondWarrior;
+
         [SetUp]
         public void Setup()
         {
@@ -44,10 +45,20 @@ namespace Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("", 40, 80)]
-        [TestCase(null, 40, 80)]
         [TestCase("         ", 40, 80)]
-        public void NameShoulThrowExcIfNullOrWhiteSpace(string name, int damage, int hp)
+        public void NameShoulThrowExcIfWhiteSpace(string name, int damage, int hp)
+        {
+            Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
+                INVALID_NAME);
+        }
+        [TestCase("", 40, 80)]
+        public void NameShoulThrowExcIfEmptySpace(string name, int damage, int hp)
+        {
+            Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
+                INVALID_NAME);
+        }
+        [TestCase(null, 40, 80)]
+        public void NameShoulThrowExcIfNull(string name, int damage, int hp)
         {
             Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
                 INVALID_NAME);
@@ -70,9 +81,16 @@ namespace Tests
             Assert.AreEqual(expected, actual);
         }
 
-        [TestCase("Mamula", 0, 80)]
+        
         [TestCase("Mamula", -890, 80)]
-        public void DamageShoulThrowExcIfNullOrNegative(string name, int damage, int hp)
+        public void DamageShoulThrowExcIfNegative(string name, int damage, int hp)
+        {
+            Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
+                INVALID_DAMAGE);
+        }
+
+        [TestCase("Mamula", 0, 80)]
+        public void DamageShoulThrowExcIfNull(string name, int damage, int hp)
         {
             Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
                 INVALID_DAMAGE);
@@ -105,8 +123,19 @@ namespace Tests
 
             
         }
-        [TestCase("Kochana", 78, 26)]
+
         [TestCase("Kochana", 78, 30)]
+        public void AttackShouldThrowExcIfHPEqualsMinAttacked(string name, int damage, int hp)
+        {
+            //Arrange
+            var warriorToAttack = new Warrior(name, damage, hp);
+
+            //Assert
+            Assert.Throws<InvalidOperationException>(() =>
+            this.secondWarrior.Attack(warriorToAttack), $"Enemy HP must be greater than {MIN_ATTACK_HP} in order to attack him!"); //Act            
+        }
+
+        [TestCase("Kochana", 78, 26)]
         public void AttackShouldThrowExcIfHPLessThanMinAttacked(string name, int damage, int hp)
         {
             //Arrange
