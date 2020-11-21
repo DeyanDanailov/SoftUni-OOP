@@ -22,6 +22,21 @@ namespace Tests
         }
 
         [Test]
+        public void CheckConstructor()
+        {
+            var expectedName = "Gencho";
+            var expectesDamage = 45;
+            var expectedHp = 78;
+            var megaWarrior = new Warrior(expectedName, expectesDamage, expectedHp);
+            var actualName = megaWarrior.Name;
+            var actualDamage = megaWarrior.Damage;
+            var actualHp = megaWarrior.HP;
+            Assert.AreEqual(expectedName, actualName);
+            Assert.AreEqual(expectesDamage, actualDamage);
+            Assert.AreEqual(expectedHp, actualHp);
+        }
+
+        [Test]
         public void CheckNameGetter()
         {
             var expected = "Sudjuka";
@@ -36,6 +51,15 @@ namespace Tests
             Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
                 INVALID_NAME);
         }
+
+        [Test]
+        public void SetterShouldSetName()
+        {
+            var expected = "Sudjuka";
+            var actual = warrior.Name;
+            Assert.AreEqual(expected, actual);
+        }
+
 
         [Test]
         public void CheckDamageGetter()
