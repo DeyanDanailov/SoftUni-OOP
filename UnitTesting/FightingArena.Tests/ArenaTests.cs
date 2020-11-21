@@ -21,6 +21,11 @@ namespace Tests
             this.secondWarrior = new Warrior("Bastuna", 78, 50);
         }
 
+        [Test]
+        public void CheckConstructor()
+        {
+            Assert.IsNotNull(this.arena.Warriors);
+        }
         
         [Test]
         public void WarriorsPropShouldReturnWarriorsCollection()
@@ -33,10 +38,17 @@ namespace Tests
         [Test]
         public void EnrollShouldThrowExcWhenWarriorIsInCollection()
         {
-            arena.Enroll(warrior);
+            this.arena.Enroll(warrior);
             Assert.Throws<InvalidOperationException>(() => 
-            arena.Enroll(warrior),
+            this.arena.Enroll(warrior),
                 INVALID_WARRIOR_ENROLL);
+        }
+
+        [Test]
+        public void EnrollShouldAddWarrior()
+        {
+            this.arena.Enroll(warrior);
+            Assert.That(this.arena.Warriors, Has.Member(this.warrior));
         }
 
         [Test]

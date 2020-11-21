@@ -46,6 +46,7 @@ namespace Tests
 
         [TestCase("", 40, 80)]
         [TestCase(null, 40, 80)]
+        [TestCase("         ", 40, 80)]
         public void NameShoulThrowExcIfNullOrWhiteSpace(string name, int damage, int hp)
         {
             Assert.Throws<ArgumentException>(() => new Warrior(name, damage, hp), //Act
@@ -105,6 +106,7 @@ namespace Tests
             
         }
         [TestCase("Kochana", 78, 26)]
+        [TestCase("Kochana", 78, 30)]
         public void AttackShouldThrowExcIfHPLessThanMinAttacked(string name, int damage, int hp)
         {
             //Arrange
@@ -132,8 +134,8 @@ namespace Tests
             //Arrange
             var warriorToAttack = new Warrior(name, damage, hp);
             //Act
+            var expected = secondWarrior.HP - warriorToAttack.Damage;
             this.secondWarrior.Attack(warriorToAttack);
-            var expected = 11;
             var actual = this.secondWarrior.HP;
 
             //AssertOne
@@ -146,12 +148,18 @@ namespace Tests
         public void AttackShouldDecreaseAtackedHPIfGreaterThanAttackerDamage(string name, int damage, int hp)
         {
             //Arrange
+            var megaDeathWarrior = new Warrior("Mecho", 42, 80);           
             var warriorToAttack = new Warrior(name, damage, hp);
+           
+            var expectedAttHP = megaDeathWarrior.HP - warriorToAttack.Damage;
+            var expectedDeffHP = warriorToAttack.HP - megaDeathWarrior.Damage;
             //Act
-            this.secondWarrior.Attack(warriorToAttack);
+            megaDeathWarrior.Attack(warriorToAttack);
+            
                        
             //AssertTwo
-            Assert.AreEqual(1, warriorToAttack.HP);
+            Assert.AreEqual(expectedAttHP, megaDeathWarrior.HP);
+            Assert.AreEqual(expectedDeffHP, warriorToAttack.HP);
         }
     }
 }
