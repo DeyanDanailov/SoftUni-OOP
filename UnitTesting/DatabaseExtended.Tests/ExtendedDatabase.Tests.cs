@@ -121,8 +121,9 @@ namespace Tests
         [TestCase("Pesho")]
         public void FindByUserNameShouldReturnPersonIfNameIsInTheCollection(string name)
         {
-            bool personIsFound = this.persons.Any(p => p.UserName == name);
-            Assert.IsTrue(personIsFound);
+            var expected = this.persons.First(p => p.UserName == name);
+            var actual = database.FindByUsername(name);
+            Assert.AreEqual(expected, actual);
         }
         [TestCase(-1)]
         public void FindByUserIdShouldThrowArgumentRangeExceptionWhenIdIsLessThanNull(long id)
@@ -141,21 +142,9 @@ namespace Tests
         [TestCase(1111)]
         public void FindByUserIdShouldReturnPersonIfIdIsInTheCollection(long id)
         {
-            bool personIsFound = this.persons.Any(p => p.Id == id);
-            Assert.IsTrue(personIsFound);
-        }
-        [Test]
-        public void ConstructorShoudInitializeCollection()
-        {
-            var pesho = new Person(114560, "Pusho");
-            var gosho = new Person(447788556699, "Gusho");
-            var expected = new Person[] { pesho, gosho };
-
-            var db = new ExtendedDatabase.ExtendedDatabase(expected);
-
-            var actual = expected;
-
-            Assert.That(actual, Is.EqualTo(expected));
+            var expected = this.persons.First(p => p.Id == id);
+            var actual = database.FindById(id);
+            Assert.AreEqual(expected, actual);
         }
     }
 }
