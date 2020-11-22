@@ -1,4 +1,4 @@
-using System;
+
 using Moq;
 using NUnit.Framework;
 using Skeleton;
@@ -6,9 +6,7 @@ using Skeleton;
 [TestFixture]
 public class AxeTests
 {
-    private Axe axe;
-
-    //private Dummy dummy;
+    private IWeapon axe;
 
     [SetUp]
     public void SetAxeAndDummy()
@@ -58,5 +56,12 @@ public class AxeTests
             Throws.InvalidOperationException
             .With.Message.EqualTo("Axe is broken."));
 
+    }
+    [Test]
+    public void CheckAttackPointsProperty()
+    {
+        var expected = 10;
+        var actual = this.axe.AttackPoints;
+        Assert.AreEqual(expected, actual);
     }
 }

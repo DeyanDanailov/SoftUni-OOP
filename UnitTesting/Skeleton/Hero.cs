@@ -6,7 +6,7 @@ public class Hero
     private int experience;
     private IWeapon weapon;
 
-    public Hero(string name)
+    public Hero(string name, IWeapon axe)
     {
         this.name = name;
         this.experience = 0;
