@@ -7,51 +7,37 @@ namespace EasterRaces.Models.Cars.Entities
 {
     
     public abstract class Car : ICar
-    { 
-        protected int minHorsePower;
-        protected int maxHorsePower;
+    {
+        private const int MinimunSymbolsForModel = 4;
         private string model;
-        private int horsePower;
-        public Car(string model, int horsePower, double cubicCentimeters, int minHorsePower, int maxHorsePower)
+
+        public Car(string model, int horsePower)
         {
             this.Model = model;
+
             this.HorsePower = horsePower;
-            this.CubicCentimeters = cubicCentimeters;
-            this.minHorsePower = minHorsePower;
-            this.maxHorsePower = maxHorsePower;
         }
-        public string Model {
+        public string Model
+        {
             get
             {
                 return this.model;
-            } 
+            }
             private set
             {
-                if (string.IsNullOrWhiteSpace(value) || value.Length < 4)
+                if (String.IsNullOrWhiteSpace(value) || value.Length < MinimunSymbolsForModel)
                 {
-                    throw new ArgumentException(String.Format(ExceptionMessages.InvalidModel, value, 4));
+                    string msg = string.Format(ExceptionMessages.InvalidModel, value, MinimunSymbolsForModel);
+                    throw new ArgumentException(msg);
                 }
+
                 this.model = value;
             }
         }
 
-        public int HorsePower
-        {
-            get
-            {
-                return this.horsePower;
-            }
-            private set
-            {
-                if (value < this.minHorsePower || value > this.maxHorsePower)
-                {
-                    throw new ArgumentException(String.Format(ExceptionMessages.InvalidHorsePower, value));
-                }
-                this.horsePower = value;
-            }
-        }
+        public abstract int HorsePower { get; protected set; }
 
-        public double CubicCentimeters { get; protected set; }
+        public abstract double CubicCentimeters { get; }
 
         public double CalculateRacePoints(int laps)
         {

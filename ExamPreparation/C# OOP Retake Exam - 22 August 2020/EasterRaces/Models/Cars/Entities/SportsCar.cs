@@ -1,15 +1,41 @@
 ﻿
 
+using EasterRaces.Utilities.Messages;
+using System;
+
 namespace EasterRaces.Models.Cars.Entities
 {
     public class SportsCar : Car
     {
-        public SportsCar(string model, int horsePower, double cubicCentimeters, int minHorsePower, int maxHorsePower) 
-            : base(model, horsePower, cubicCentimeters, minHorsePower, maxHorsePower)
+        private const double CCentimeters = 3000;
+        private const int MinHP = 250;
+        private const int MaxHP = 450;
+
+        private int horsePower;
+
+        public SportsCar(string model, int horsePower)
+            : base(model, horsePower)
         {
-            this.minHorsePower = 250;
-            this.maxHorsePower = 450;
-            this.CubicCentimeters = 3000;
+            this.CubicCentimeters = CCentimeters;
+        }
+
+        public override double CubicCentimeters { get; }
+        public override int HorsePower
+        {
+            get
+            {
+                return this.horsePower;
+            }
+            protected set
+            {
+                if (value < MinHP || value > MaxHP)
+                {
+                    string msg = string.Format(ExceptionMessages.InvalidHorsePower, value);
+                    throw new ArgumentException(msg);
+                }
+
+                this.horsePower = value;
+            }
         }
     }
 }

@@ -9,19 +9,10 @@ namespace EasterRaces.Repositories.Entities
 {
     public class CarRepository<ICar> : Repository<ICar>
     {
-        public override ICar GetByName(string name)
+        private readonly ICollection<ICar> cars;
+        public CarRepository()
         {
-            var type = typeof(ICar);
-            var modelProperty = type.GetProperty("Model");
-            foreach (var car in this.models)
-            {
-                string modelValue = (string)modelProperty?.GetValue(car);
-                if (modelValue == name)
-                {
-                    return car;
-                }
-            }
-            throw new Exception(String.Format(ExceptionMessages.CarNotFound, name));
+            this.cars = new List<ICar>();
         }
     }
 }

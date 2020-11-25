@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using EasterRaces.Models.Drivers.Contracts;
 using EasterRaces.Models.Races.Contracts;
 using EasterRaces.Utilities.Messages;
@@ -10,46 +11,60 @@ namespace EasterRaces.Models.Races.Entities
 {
     public class Race : IRace
     {
+        private const int MinNameLength = 5;
+        private const int MinLaps = 1;
+
         private string name;
         private int laps;
-        private ICollection<IDriver> drivers;
+
+        private readonly List<IDriver> drivers;
+
+        private Race()
+        {
+            this.drivers = new List<IDriver>();
+        }
         public Race(string name, int laps)
+            : this()
         {
             this.Name = name;
             this.Laps = laps;
-            this.drivers = new List<IDriver>();
         }
-        public string Name {
+        public string Name
+        {
             get
             {
                 return this.name;
             }
             private set
             {
-                if (string.IsNullOrEmpty(value) || value.Length < 5)
+                if (string.IsNullOrEmpty(value) || value.Length < MinNameLength)
                 {
-                    throw new ArgumentException(String.Format(ExceptionMessages.InvalidName, value, 5));
+                    string msg = string.Format(ExceptionMessages.InvalidName, value, MinNameLength);
+                    throw new ArgumentException(msg);
                 }
                 this.name = value;
             }
         }
 
-        public int Laps {
+        public int Laps
+        {
             get
             {
                 return this.laps;
             }
             private set
             {
-                if (value <1)
+                if (value < MinLaps)
                 {
-                    throw new ArgumentException(String.Format(ExceptionMessages.InvalidNumberOfLaps, 1));
+                    string msg = string.Format(ExceptionMessages.InvalidNumberOfLaps, MinLaps);
+                    throw new ArgumentException(msg);
                 }
+
                 this.laps = value;
             }
         }
 
-        public IReadOnlyCollection<IDriver> Drivers => (IReadOnlyCollection<IDriver>)this.drivers;
+        public IReadOnlyCollection<IDriver> Drivers => this.drivers;
 
         public void AddDriver(IDriver driver)
         {
@@ -57,14 +72,17 @@ namespace EasterRaces.Models.Races.Entities
             {
                 throw new ArgumentNullException(ExceptionMessages.DriverInvalid);
             }
-            if (driver.CanParticipate == false)
+            if (!driver.CanParticipate)
             {
-                throw new ArgumentException(String.Format(ExceptionMessages.DriverNotParticipate, driver.Name));
+                string msg = string.Format(ExceptionMessages.DriverNotParticipate, driver.Name);
+                throw new ArgumentException(msg);
             }
-            if (this.drivers.Contains(driver))
+            if (this.Drivers.Contains(driver))
             {
-                throw new ArgumentNullException(String.Format(ExceptionMessages.DriverAlreadyAdded, driver.Name, this.Name));
+                string msg = string.Format(ExceptionMessages.DriverAlreadyAdded, driver.Name, this.Name);
+                throw new ArgumentNullException(msg);
             }
+
             this.drivers.Add(driver);
         }
     }
