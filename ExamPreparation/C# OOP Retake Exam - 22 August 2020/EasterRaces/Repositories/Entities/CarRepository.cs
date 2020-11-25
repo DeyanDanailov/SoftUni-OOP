@@ -1,5 +1,6 @@
 ﻿
 using EasterRaces.Models.Cars.Contracts;
+using EasterRaces.Models.Cars.Entities;
 
 using System.Collections.Generic;
 
