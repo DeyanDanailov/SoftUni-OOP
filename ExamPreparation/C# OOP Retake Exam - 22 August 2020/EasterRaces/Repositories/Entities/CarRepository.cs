@@ -1,13 +1,12 @@
 ﻿
-using EasterRaces.Models.Cars.Entities;
-using EasterRaces.Utilities.Messages;
-using System;
+using EasterRaces.Models.Cars.Contracts;
+
 using System.Collections.Generic;
-using System.Linq;
+
 
 namespace EasterRaces.Repositories.Entities
 {
-    public class CarRepository<ICar> : Repository<ICar>
+    public class CarRepository : Repository<ICar>
     {
         private readonly ICollection<ICar> cars;
         public CarRepository()
