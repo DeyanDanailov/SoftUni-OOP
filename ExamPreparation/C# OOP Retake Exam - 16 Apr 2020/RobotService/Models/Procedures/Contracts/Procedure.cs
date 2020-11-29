@@ -10,6 +10,10 @@ namespace RobotService.Models.Procedures.Contracts
     public abstract class Procedure : IProcedure
     {
         protected ICollection<IRobot> data;
+        public Procedure()
+        {
+            this.data = new List<IRobot>();
+        }
         public virtual void DoService(IRobot robot, int procedureTime)
         {
             if (procedureTime > robot.ProcedureTime)
@@ -17,7 +21,7 @@ namespace RobotService.Models.Procedures.Contracts
                 throw new ArgumentException(ExceptionMessages.InsufficientProcedureTime);
             }
             robot.ProcedureTime -= procedureTime;
-            data.Add(robot);
+
         }
 
         public string History()
@@ -26,7 +30,7 @@ namespace RobotService.Models.Procedures.Contracts
             sb.AppendLine(this.GetType().Name);
             foreach (var robot in data)
             {
-                sb.AppendLine($" Robot type: {robot.GetType().Name} - {robot.Name} - Happiness: {robot.Happiness} - Energy: {robot.Energy}");
+                sb.AppendLine(String.Format(OutputMessages.RobotInfo, robot.GetType().Name, robot.Name, robot.Happiness, robot.Energy));
             }
             return sb.ToString().Trim();
         }

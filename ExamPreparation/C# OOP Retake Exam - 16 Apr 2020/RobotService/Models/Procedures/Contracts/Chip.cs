@@ -15,6 +15,7 @@ namespace RobotService.Models.Procedures.Contracts
             {
                 throw new ArgumentException(String.Format(ExceptionMessages.AlreadyChipped, robot.Name));
             }
+            robot.IsChipped = true;
         }
     }
 }

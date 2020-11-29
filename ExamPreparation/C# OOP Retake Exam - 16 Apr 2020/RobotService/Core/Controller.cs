@@ -13,21 +13,21 @@ namespace RobotService.Core
 {
     public class Controller : IController
     {
-        private ICollection<IRobot> robots;
-        private ICollection<IProcedure> procedures;
+        private IDictionary<string, List<IRobot>> procedures;
         private IGarage garage;
         public Controller()
         {
-            this.robots = new List<IRobot>();
-            this.procedures = new List<IProcedure>();
+            this.procedures = new Dictionary<string, List<IRobot>>();
             this.garage = new Garage();
         }
+
         public string Charge(string robotName, int procedureTime)
         {
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure charge = new Charge();
             charge.DoService(currentRobot, procedureTime);
-            this.procedures.Add(charge);
+            AddProcedure(charge, currentRobot);
+
             return String.Format(OutputMessages.ChargeProcedure, currentRobot.Name);
         }
 
@@ -36,22 +36,29 @@ namespace RobotService.Core
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure chip = new Chip();
             chip.DoService(currentRobot, procedureTime);
-            this.procedures.Add(chip);
+            AddProcedure(chip, currentRobot);
 
             return String.Format(OutputMessages.ChipProcedure, currentRobot.Name);
         }
 
         public string History(string procedureType)
         {
-            var currentProcedure = this.procedures.FirstOrDefault(p => p.GetType().Name == procedureType);
-            return currentProcedure.History();
+            var robots = this.procedures[procedureType];
+
+            var sb = new StringBuilder();
+            sb.AppendLine(procedureType);
+            foreach (var robot in robots)
+            {
+                sb.AppendLine(String.Format(OutputMessages.RobotInfo, robot.GetType().Name, robot.Name, robot.Happiness, robot.Energy));
+            }
+            return sb.ToString().Trim();
         }
 
         public string Manufacture(string robotType, string name, int energy, int happiness, int procedureTime)
         {
             IRobot robot = ProduceRobot(robotType, name, energy, happiness, procedureTime);
             this.garage.Manufacture(robot);
-           
+
             return String.Format(OutputMessages.RobotManufactured, robot.Name);
         }
 
@@ -60,7 +67,8 @@ namespace RobotService.Core
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure polish = new Polish();
             polish.DoService(currentRobot, procedureTime);
-            this.procedures.Add(polish);
+            AddProcedure(polish, currentRobot);
+
 
             return String.Format(OutputMessages.PolishProcedure, currentRobot.Name);
         }
@@ -70,7 +78,8 @@ namespace RobotService.Core
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure rest = new Rest();
             rest.DoService(currentRobot, procedureTime);
-            this.procedures.Add(rest);
+            AddProcedure(rest, currentRobot);
+
 
             return String.Format(OutputMessages.RestProcedure, currentRobot.Name);
         }
@@ -94,7 +103,8 @@ namespace RobotService.Core
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure techCheck = new TechCheck();
             techCheck.DoService(currentRobot, procedureTime);
-            this.procedures.Add(techCheck);
+            AddProcedure(techCheck, currentRobot);
+
             return String.Format(OutputMessages.TechCheckProcedure, currentRobot.Name);
         }
 
@@ -103,9 +113,10 @@ namespace RobotService.Core
             var currentRobot = RobotExistsInGarage(robotName);
             IProcedure work = new Work();
             work.DoService(currentRobot, procedureTime);
-            this.procedures.Add(work);
+            AddProcedure(work, currentRobot);
 
-            return String.Format(OutputMessages.WorkProcedure, currentRobot.Name);
+
+            return String.Format(OutputMessages.WorkProcedure, currentRobot.Name, procedureTime);
         }
         private IRobot RobotExistsInGarage(string robotName)
         {
@@ -136,6 +147,18 @@ namespace RobotService.Core
             }
             return robot;
         }
-       
+        private void AddProcedure(IProcedure current, IRobot robot)
+        {
+            if (this.procedures.ContainsKey(current.GetType().Name))
+            {
+                this.procedures[current.GetType().Name].Add(robot);
+            }
+            else
+            {
+                this.procedures[current.GetType().Name] = new List<IRobot>();
+                this.procedures[current.GetType().Name].Add(robot);
+            }
+        }
+
     }
 }
