@@ -90,9 +90,9 @@ namespace OnlineShop.Models.Products.Computers
             sb
                 .AppendLine(base.ToString())
                 .AppendLine(String.Format(" " + SuccessMessages.ComputerComponentsToString, this.Components.Count))
-                .AppendLine("  " + String.Join(Environment.NewLine, this.Components))
+                .AppendLine("  " + String.Join(Environment.NewLine + "  ", this.Components))
                 .AppendLine(String.Format(" " + SuccessMessages.ComputerPeripheralsToString, this.Peripherals.Count, String.Format("{0:0.00}", overrallP)))
-                .AppendLine("  " + String.Join(Environment.NewLine, this.Peripherals));
+                .AppendLine("  " + String.Join(Environment.NewLine + "  ", this.Peripherals));
 
             return sb.ToString().Trim();
         }
