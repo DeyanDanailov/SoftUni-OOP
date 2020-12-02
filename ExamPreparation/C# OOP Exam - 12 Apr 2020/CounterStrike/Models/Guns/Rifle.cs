@@ -2,10 +2,10 @@
 
 namespace CounterStrike.Models.Guns
 {
-    public class Pistol : Gun
+    public class Rifle : Gun
     {
-        private const int BulletsAtATime = 1;
-        public Pistol(string name, int bulletsCount)
+        private const int BulletsAtATime = 10;
+        public Rifle(string name, int bulletsCount)
             : base(name, bulletsCount)
         {
         }

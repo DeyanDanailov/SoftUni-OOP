@@ -15,7 +15,9 @@ namespace CounterStrike.Models.Guns
             this.Name = name;
             this.BulletsCount = bulletsCount;
         }
-        public string Name { get => this.name; 
+        public string Name 
+        { 
+            get => this.name; 
             private set
             {
                 if (string.IsNullOrWhiteSpace(value))
@@ -29,7 +31,7 @@ namespace CounterStrike.Models.Guns
         public int BulletsCount
         {
             get => this.bulletsCount;
-            private set
+            protected set
             {
                 if (value < 0)
                 {

@@ -1,9 +1,8 @@
 ﻿using CounterStrike.Models.Maps.Contracts;
 using CounterStrike.Models.Players.Contracts;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+
 
 namespace CounterStrike.Models.Maps
 {
@@ -20,26 +19,33 @@ namespace CounterStrike.Models.Maps
             var counterTerrorists = this.players.Where(p => p.GetType().Name == "CounterTerrorist").ToList();
             while (true)
             {
-                foreach (var osama in terrorists)
-                {
-                    foreach (var bareta in counterTerrorists)
-                    {                       
-                        int damage = osama.Gun.Fire();
-                        bareta.TakeDamage(damage);
-                        if (bareta.IsAlive == false)
-                        {
-                            counterTerrorists.Remove(bareta);
-                        }
-                    }
-                }
+                Shooting(terrorists, counterTerrorists);
                 if (!counterTerrorists.Any())
                 {
-                   return 
+                    return "Terrorist wins!";
                 }
-
-
+                Shooting(counterTerrorists, terrorists);
+                if (!terrorists.Any())
+                {
+                    return "Counter Terrorist wins!";
+                }
             }
+        }
 
+        private static void Shooting(List<IPlayer> shooters, List<IPlayer> targets)
+        {
+            foreach (var shooter in shooters)
+            {
+                foreach (var target in targets)
+                {
+                    int damage = shooter.Gun.Fire();
+                    target.TakeDamage(damage);
+                    if (target.IsAlive == false)
+                    {
+                        targets.Remove(target);
+                    }
+                }
+            }
         }
     }
 }
