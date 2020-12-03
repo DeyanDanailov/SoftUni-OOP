@@ -2,7 +2,7 @@
 using CounterStrike.Models.Players.Contracts;
 using CounterStrike.Utilities.Messages;
 using System;
-
+using System.Text;
 
 namespace CounterStrike.Models.Players
 {
@@ -74,23 +74,36 @@ namespace CounterStrike.Models.Players
 
         public void TakeDamage(int points)
         {
-            if (this.armor >= points)
+            if (this.Armor >= points)
             {
-                this.armor -= points;
+                this.Armor -= points;
             }
             else
             {
-                points -= this.armor;
-                if (this.health > points)
+                points -= this.Armor;
+                this.Armor = 0;
+                if (this.Health >= points)
                 {
-                    this.health -= points;
+                    this.Health -= points;
                 }
                 else
                 {
-                    this.health = 0;
-                    this.IsAlive = false;
+                    this.Health = 0;
+                    //this.IsAlive = false;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+            sb
+                .AppendLine($"{this.GetType().Name}: {this.Username}")
+                .AppendLine($"--Health: {this.Health}")
+                .AppendLine($"--Armor: {this.Armor}")
+                .AppendLine($"--Gun: {this.Gun.Name}");
+
+            return sb.ToString().Trim();
         }
     }
 }

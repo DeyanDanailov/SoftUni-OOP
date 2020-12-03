@@ -1,4 +1,5 @@
 ﻿using CounterStrike.Models.Maps.Contracts;
+using CounterStrike.Models.Players;
 using CounterStrike.Models.Players.Contracts;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,17 +16,17 @@ namespace CounterStrike.Models.Maps
         }
         public string Start(ICollection<IPlayer> players)
         {
-            var terrorists = this.players.Where(p => p.GetType().Name == "Terrorist").ToList();
-            var counterTerrorists = this.players.Where(p => p.GetType().Name == "CounterTerrorist").ToList();
+            var terrorists = players.Where(p => p.GetType().Name == nameof(Terrorist)).ToList();
+            var counterTerrorists = players.Where(p => p.GetType().Name == nameof(CounterTerrorist)).ToList();
             while (true)
             {
                 Shooting(terrorists, counterTerrorists);
-                if (!counterTerrorists.Any())
+                if (counterTerrorists.TrueForAll(c=>c.IsAlive == false))
                 {
                     return "Terrorist wins!";
                 }
                 Shooting(counterTerrorists, terrorists);
-                if (!terrorists.Any())
+                if (!terrorists.TrueForAll(t=>t.IsAlive == false))
                 {
                     return "Counter Terrorist wins!";
                 }
@@ -40,10 +41,6 @@ namespace CounterStrike.Models.Maps
                 {
                     int damage = shooter.Gun.Fire();
                     target.TakeDamage(damage);
-                    if (target.IsAlive == false)
-                    {
-                        targets.Remove(target);
-                    }
                 }
             }
         }
