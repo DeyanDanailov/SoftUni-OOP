@@ -82,7 +82,7 @@ namespace CounterStrike.Models.Players
             {
                 points -= this.Armor;
                 this.Armor = 0;
-                if (this.Health >= points)
+                if (this.Health > points)
                 {
                     this.Health -= points;
                 }
