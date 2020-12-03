@@ -89,7 +89,7 @@ namespace CounterStrike.Models.Players
                 else
                 {
                     this.Health = 0;
-                    //this.IsAlive = false;
+                    this.IsAlive = false;
                 }
             }
         }
