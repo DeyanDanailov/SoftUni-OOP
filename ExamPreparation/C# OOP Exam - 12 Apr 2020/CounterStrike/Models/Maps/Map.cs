@@ -16,17 +16,17 @@ namespace CounterStrike.Models.Maps
         }
         public string Start(ICollection<IPlayer> players)
         {
-            var terrorists = this.players.Where(p => p.GetType().Name == nameof(Terrorist)).ToList();
-            var counterTerrorists = this.players.Where(p => p.GetType().Name == nameof(CounterTerrorist)).ToList();
+            var terrorists = players.Where(p => p.GetType().Name == nameof(Terrorist)).ToList();
+            var counterTerrorists = players.Where(p => p.GetType().Name == nameof(CounterTerrorist)).ToList();
             while (true)
             {
                 Shooting(terrorists, counterTerrorists);
-                if (counterTerrorists.TrueForAll(c=>c.IsAlive == false))
+                if (!counterTerrorists.Any(c=>c.IsAlive))
                 {
                     return "Terrorist wins!";
                 }
                 Shooting(counterTerrorists, terrorists);
-                if (terrorists.TrueForAll(t=>t.IsAlive == false))
+                if (!terrorists.Any(t=>t.IsAlive))
                 {
                     return "Counter Terrorist wins!";
                 }
@@ -41,8 +41,11 @@ namespace CounterStrike.Models.Maps
                 {
                     foreach (var target in targets)
                     {
-                        int damage = shooter.Gun.Fire();
-                        target.TakeDamage(damage);
+                        if (target.IsAlive)
+                        {
+                            int damage = shooter.Gun.Fire();
+                            target.TakeDamage(damage);
+                        }                        
                     }
                 }
                 
