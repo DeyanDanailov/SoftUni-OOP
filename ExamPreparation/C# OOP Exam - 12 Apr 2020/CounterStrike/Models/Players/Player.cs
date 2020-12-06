@@ -70,7 +70,13 @@ namespace CounterStrike.Models.Players
             }
         }
 
-        public bool IsAlive { get; private set; } = true;
+        public bool IsAlive
+        {
+            get
+            {
+                return this.Health > 0;
+            }
+        }
 
         public void TakeDamage(int points)
         {
@@ -82,15 +88,9 @@ namespace CounterStrike.Models.Players
             {
                 points -= this.Armor;
                 this.Armor = 0;
-                if (this.Health > points)
-                {
-                    this.Health -= points;
-                }
-                else
-                {
-                    this.Health = 0;
-                    this.IsAlive = false;
-                }
+
+                this.Health -= points;
+
             }
         }
 
