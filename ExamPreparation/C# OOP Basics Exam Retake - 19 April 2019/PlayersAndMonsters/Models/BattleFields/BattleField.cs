@@ -4,6 +4,7 @@ using PlayersAndMonsters.Models.BattleFields.Contracts;
 using PlayersAndMonsters.Models.Players;
 using PlayersAndMonsters.Models.Players.Contracts;
 using System;
+using System.Linq;
 
 namespace PlayersAndMonsters.Models.BattleFields
 {
@@ -18,12 +19,26 @@ namespace PlayersAndMonsters.Models.BattleFields
             }
             CheckIfBegginer(attackPlayer);
             CheckIfBegginer(enemyPlayer);
-            
+
+            attackPlayer.Health += attackPlayer.CardRepository.Cards.Select(c => c.HealthPoints).Sum();
+            enemyPlayer.Health += enemyPlayer.CardRepository.Cards.Select(c => c.HealthPoints).Sum();
+
+            while (true)
+            {
+                if (AttackerKillAttacked(attackPlayer, enemyPlayer))
+                {
+                    break;
+                }
+                if (AttackerKillAttacked(enemyPlayer, attackPlayer))
+                {
+                    break;
+                }
+            }
 
         }
         private IPlayer CheckIfBegginer(IPlayer player)
         {
-            if (player is Beginner)
+            if (player.GetType().Name ==  nameof(Beginner))
             {
                 player.Health += 40;
                 foreach (var card in player.CardRepository.Cards)
@@ -32,6 +47,19 @@ namespace PlayersAndMonsters.Models.BattleFields
                 }
             }
             return player;
+        }
+        private bool AttackerKillAttacked(IPlayer attacker, IPlayer attacked)
+        {
+            var attackerDamagePoints = attacker.CardRepository.Cards.Select(c => c.DamagePoints).Sum();
+            attacked.TakeDamage(attackerDamagePoints);
+            if (attacked.IsDead)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

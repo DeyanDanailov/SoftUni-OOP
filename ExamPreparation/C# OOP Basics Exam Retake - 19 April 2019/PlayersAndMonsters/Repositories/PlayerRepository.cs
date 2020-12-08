@@ -12,6 +12,10 @@ namespace PlayersAndMonsters.Repositories
     {
         private const string NULL_PLAYER = "Player cannot be null";
         private ICollection<IPlayer> players;
+        public PlayerRepository()
+        {
+            this.players = new List<IPlayer>();
+        }
         public int Count => this.players.Count;
 
         public IReadOnlyCollection<IPlayer> Players => this.players.ToList().AsReadOnly();

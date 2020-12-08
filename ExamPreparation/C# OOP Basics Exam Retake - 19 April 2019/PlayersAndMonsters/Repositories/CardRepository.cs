@@ -10,6 +10,10 @@ namespace PlayersAndMonsters.Repositories
     {
         private const string NULL_CARD = "Card cannot be null";
         private ICollection<ICard> cards;
+        public CardRepository()
+        {
+            this.cards = new List<ICard>();
+        }
         public int Count => this.cards.Count;
 
         public IReadOnlyCollection<ICard> Cards => this.cards.ToList().AsReadOnly();
