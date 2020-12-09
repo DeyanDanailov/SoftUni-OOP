@@ -67,7 +67,7 @@
             var sb = new StringBuilder();
             foreach (var player in this.playerRepository.Players)
             {
-                sb.AppendLine(String.Format(ConstantMessages.PlayerReportInfo, player.Username, player.Health, player.CardRepository.Count));
+                sb.AppendLine(String.Format(ConstantMessages.PlayerReportInfo, player.Username, player.Health, player.CardRepository.Cards.Count));
                 foreach (var card in player.CardRepository.Cards)
                 {
                     sb.AppendLine(String.Format(ConstantMessages.CardReportInfo, card.Name, card.DamagePoints));

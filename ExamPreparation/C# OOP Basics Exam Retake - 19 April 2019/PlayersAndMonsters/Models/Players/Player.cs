@@ -1,6 +1,7 @@
 ﻿
 
 using PlayersAndMonsters.Models.Players.Contracts;
+using PlayersAndMonsters.Repositories;
 using PlayersAndMonsters.Repositories.Contracts;
 using System;
 
@@ -14,9 +15,9 @@ namespace PlayersAndMonsters.Models.Players
         private string username;
         private int health;
         private readonly ICardRepository cardRepository;
-        public Player(ICardRepository cardRepository, string username, int health)
+        public Player(string username, int health)
         {
-            this.cardRepository = cardRepository;
+            this.cardRepository = new CardRepository();
             this.Username = username;
             this.Health = health;
         }
@@ -56,11 +57,16 @@ namespace PlayersAndMonsters.Models.Players
             {
                 throw new ArgumentException(INVALID_DAMAGE);
             }
-            this.Health -= damagePoints;
-            if (this.Health < 0)
+            if (damagePoints >=this.Health)
             {
                 this.IsDead = true;
+                this.Health = 0;
             }
+            else
+            {
+                this.Health -= damagePoints;
+            }
+                       
         }
     }
 }
