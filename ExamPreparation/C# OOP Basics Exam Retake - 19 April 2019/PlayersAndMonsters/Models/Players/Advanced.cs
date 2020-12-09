@@ -1,6 +1,4 @@
 ﻿
-using PlayersAndMonsters.Repositories.Contracts;
-
 namespace PlayersAndMonsters.Models.Players
 {
     public class Advanced : Player

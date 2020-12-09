@@ -1,10 +1,8 @@
 ﻿
 
 using PlayersAndMonsters.Core.Factories.Contracts;
+using PlayersAndMonsters.Models.Players;
 using PlayersAndMonsters.Models.Players.Contracts;
-using System;
-using System.Linq;
-using System.Reflection;
 
 namespace PlayersAndMonsters.Core.Factories
 {
@@ -12,12 +10,16 @@ namespace PlayersAndMonsters.Core.Factories
     {
         public IPlayer CreatePlayer(string type, string username)
         {
-            Type playerType = Assembly
-                .GetExecutingAssembly()
-                .GetTypes().FirstOrDefault(t => t.Name == type);
+            IPlayer player = null;
 
-            IPlayer player = (IPlayer)Activator.CreateInstance(playerType, new object[1] {username});
-
+            if (type == "Beginner")
+            {
+                player = new Beginner(username);
+            }
+            if (type == "Advanced")
+            {
+                player = new Advanced(username);
+            }
             return player;
         }
     }

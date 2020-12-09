@@ -1,7 +1,6 @@
 ﻿
 
 using PlayersAndMonsters.Core.Contracts;
-using PlayersAndMonsters.IO;
 using PlayersAndMonsters.IO.Contracts;
 using System;
 
@@ -22,7 +21,7 @@ namespace PlayersAndMonsters.Core
         {
             while (true)
             {
-                string[] inputArgs = reader.ReadLine().Split();
+                string[] inputArgs = reader.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries);
                 string command = inputArgs[0];
 
                 if (command == "Exit")
@@ -37,34 +36,34 @@ namespace PlayersAndMonsters.Core
                         case "AddPlayer":
                             var playertype = inputArgs[1];
                             var playerUsername = inputArgs[2];
-                            result = managerController.AddPlayer(playertype, playerUsername);
+                            result = this.managerController.AddPlayer(playertype, playerUsername);
                             break;
                         case "AddCard":
                             var cardType = inputArgs[1];
                             var cardName = inputArgs[2];
-                            result = managerController.AddCard(cardType, cardName);
+                            result = this.managerController.AddCard(cardType, cardName);
                             break;
                         case "AddPlayerCard":
                             var username = inputArgs[1];
                             var cardToAdd = inputArgs[2];
-                            result = managerController.AddPlayerCard(username, cardToAdd);
+                            result = this.managerController.AddPlayerCard(username, cardToAdd);
                             break;
                         case "Fight":
                             var attacker = inputArgs[1];
                             var enemy = inputArgs[2];
-                            result = managerController.Fight(attacker, enemy);
+                            result = this.managerController.Fight(attacker, enemy);
                             break;
                         case "Report":
-                            result = managerController.Report();
+                            result = this.managerController.Report();
                             break;
                         default:
                             break;
                     }
-                    writer.WriteLine(result);
+                    this.writer.WriteLine(result);
                 }
-                catch (Exception ex)
+                catch (ArgumentException ex)
                 {
-                    writer.WriteLine(ex.Message);
+                    this.writer.WriteLine(ex.Message);
                     continue;
                 }
                 
