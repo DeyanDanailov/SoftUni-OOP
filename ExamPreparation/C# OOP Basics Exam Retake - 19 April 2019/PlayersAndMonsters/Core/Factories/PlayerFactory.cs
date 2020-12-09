@@ -16,7 +16,7 @@ namespace PlayersAndMonsters.Core.Factories
                 .GetExecutingAssembly()
                 .GetTypes().FirstOrDefault(t => t.Name == type);
 
-            IPlayer player = (IPlayer)Activator.CreateInstance(playerType, new object[1] { username});
+            IPlayer player = (IPlayer)Activator.CreateInstance(playerType, new object[1] {username});
 
             return player;
         }

@@ -9,8 +9,8 @@ namespace PlayersAndMonsters.Models.Players
 {
     public abstract class Player : IPlayer
     {
-        private const string INVALID_USERNAME = "Player's username cannot be null or an empty string. ";
-        private const string INVALID_HEALTH = "Player's health bonus cannot be less than zero. ";
+        private const string INVALID_USERNAME = "Player's username cannot be null or an empty string.";
+        private const string INVALID_HEALTH = "Player's health bonus cannot be less than zero.";
         private const string INVALID_DAMAGE = "Damage points cannot be less than zero.";
         private string username;
         private int health;
@@ -57,7 +57,7 @@ namespace PlayersAndMonsters.Models.Players
             {
                 throw new ArgumentException(INVALID_DAMAGE);
             }
-            if (damagePoints >=this.Health)
+            if (damagePoints >= this.Health)
             {
                 this.IsDead = true;
                 this.Health = 0;
