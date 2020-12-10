@@ -7,6 +7,6 @@ namespace GrandPrix.Models.Cars
     {
         int Hp { get; }
         double FuelAmount { get; set; }
-        ITyre Tyre { get;  }
+        ITyre Tyre { get; set; }
     }
 }

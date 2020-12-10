@@ -44,23 +44,77 @@ namespace GrandPrix.Core
             this.weather = commandArgs[1];
         }
 
-        public string CompleteLaps(List<string> commandArgs)
+        public void CompleteLaps(List<string> commandArgs)
         {
             var lapsToComplete = int.Parse(commandArgs[1]);
             if (lapsToComplete > this.numberOfRemainingLaps)
             {
                 throw new InvalidOperationException($"There is no time!On lap {this.numberOfLaps - this.numberOfRemainingLaps}.");
             }
-            this.numberOfRemainingLaps -= lapsToComplete;
+           
             for (int i = 0; i < lapsToComplete; i++)
             {
-                DriveOneLap();
+                DrivingOneLap();
                 this.drivers = this.drivers.OrderByDescending(d => d.TotalTime).ToList();
                 Overtaking(i + 1);                
             }
-            return $"We completed {this.numberOfLaps - this.numberOfRemainingLaps}";
+            this.drivers = this.drivers.Where(d => d.NotFinishingReason == String.Empty).ToList();
+            this.numberOfRemainingLaps -= lapsToComplete;
+            if (this.numberOfRemainingLaps == 0)
+            {
+                IDriver winner = (IDriver)this.drivers.OrderBy(d => d.TotalTime).FirstOrDefault();
+                Console.WriteLine($"{winner.Name} wins the race for {winner.TotalTime:F3} seconds.");
+                Environment.Exit(0);
+            }
         }
 
+        public void DriverBoxes(List<string> commandArgs)
+        {
+            IDriver driver = (IDriver)this.drivers.FirstOrDefault(d => d.Name == commandArgs[2]);
+            driver.TotalTime += 20;
+            if (commandArgs[1] == "Refuel")
+            {
+                Refuel(commandArgs, driver);
+            }
+            else if (commandArgs[1] == "ChangeTyres")
+            {
+                ChangeTyres(commandArgs, driver);
+            }
+        }
+
+        public string GetLeaderboard()
+        {
+            this.drivers = this.drivers.Where(d=>d.NotFinishingReason == String.Empty).OrderBy(d => d.TotalTime).ToList();
+            var sb = new StringBuilder();
+            sb.AppendLine($"Lap {this.numberOfLaps - this.numberOfRemainingLaps}/{this.numberOfLaps}");
+            for (int i = 0; i < this.drivers.Count; i++)
+            {
+                sb.AppendLine($"{i + 1} {this.drivers[i].Name} {this.drivers[i].TotalTime:F3}");               
+            }
+            for (int i = 0; i < this.notFinishedDrivers.Count; i++)
+            {
+                sb.AppendLine($"{this.drivers.Count + i + 1} {this.notFinishedDrivers[i].Name} {this.notFinishedDrivers[i].NotFinishingReason}");
+            }
+
+            return sb.ToString().Trim();
+        }
+
+        public void RegisterDriver(List<string> commandArgs)
+        {
+            ITyre tyre = tyreFactory.Produce(commandArgs);
+            ICar car = carFactory.Produce(commandArgs, tyre);
+            IDriver driver = driverFactory.Produce(commandArgs, car, this.lengthOfLap);
+            if (tyre == null || car == null || driver == null)
+            {
+                throw new ArgumentException("Invalid arguments for registering driver");
+            }
+            this.drivers.Add(driver);
+        }
+
+        //public void SetTrackInfo(int lapsNumber, int trackLength)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
         private void Overtaking(int currentLap)
         {
             for (int j = 0; j < this.drivers.Count - 1; j++)
@@ -113,7 +167,7 @@ namespace GrandPrix.Core
                                                         $"{ currentLap}.");
         }
 
-        private void DriveOneLap()
+        private void DrivingOneLap()
         {
             foreach (var driver in this.drivers)
             {
@@ -124,60 +178,52 @@ namespace GrandPrix.Core
                 driver.TotalTime += 60 / (this.lengthOfLap / driver.Speed);
 
                 driver.Car.FuelAmount -= this.lengthOfLap * driver.FuelConsumptionPerKm;
-                if (driver.Car.FuelAmount <= 0)
+                if (driver.Car.FuelAmount < 0)
                 {
                     driver.NotFinishingReason = "Out of fuel";
-                    //this.drivers.Remove(driver);
                     this.notFinishedDrivers.Add(driver);
                 }
                 driver.Car.Tyre.DegradateTyre();
                 if (driver.Car.Tyre.IsTyreBlown())
                 {
                     driver.NotFinishingReason = "Blown Tyre";
-                    //this.drivers.Remove(driver);
                     this.notFinishedDrivers.Add(driver);
                 }
 
             }
         }
-
-        public void DriverBoxes(List<string> commandArgs)
+        private void ChangeTyres(List<string> commandArgs, IDriver driver)
         {
-            throw new System.NotImplementedException();
+            var type = commandArgs[3];
+            ITyre newTyre = null;
+            if (type == "Ultrasoft")
+            {
+                var hardness = double.Parse(commandArgs[4]);
+                var grip = double.Parse(commandArgs[5]);
+                newTyre = new UltrasoftTyre(hardness, grip);
+            }
+            else if (type == "Hard")
+            {
+                var hardness = double.Parse(commandArgs[4]);
+                newTyre = new HardTyre(hardness);
+            }
+            if (driver != null)
+            {
+                driver.Car.Tyre = newTyre;
+            }
         }
 
-        public string GetLeaderboard()
+        private void Refuel(List<string> commandArgs, IDriver driver)
         {
-            this.drivers = this.drivers.Where(d=>d.NotFinishingReason == String.Empty).OrderBy(d => d.TotalTime).ToList();
-            var sb = new StringBuilder();
-            sb.AppendLine($"Lap {this.numberOfLaps - this.numberOfRemainingLaps}/{this.numberOfLaps}");
-            for (int i = 0; i < this.drivers.Count; i++)
+            double fuelToRefuel = double.Parse(commandArgs[3]);
+            if (driver != null)
             {
-                sb.AppendLine($"{i + 1} {this.drivers[i].Name} {this.drivers[i].TotalTime:F3}");               
+                driver.Car.FuelAmount += fuelToRefuel;
+                if (driver.Car.FuelAmount > 160)
+                {
+                    driver.Car.FuelAmount = 160;
+                }
             }
-            for (int i = 0; i < this.notFinishedDrivers.Count; i++)
-            {
-                sb.AppendLine($"{this.drivers.Count + i + 1} {this.notFinishedDrivers[i].Name} {this.notFinishedDrivers[i].NotFinishingReason}");
-            }
-
-            return sb.ToString().Trim();
-        }
-
-        public void RegisterDriver(List<string> commandArgs)
-        {
-            ITyre tyre = tyreFactory.Produce(commandArgs);
-            ICar car = carFactory.Produce(commandArgs, tyre);
-            IDriver driver = driverFactory.Produce(commandArgs, car, this.lengthOfLap);
-            if (tyre == null || car == null || driver == null)
-            {
-                throw new ArgumentException("Invalid arguments for registering driver");
-            }
-            this.drivers.Add(driver);
-        }
-
-        public void SetTrackInfo(int lapsNumber, int trackLength)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

@@ -36,15 +36,12 @@ namespace GrandPrix.Core
                         case "ChangeWeather":
                             raceTower.ChangeWeather(cmdArgs);
                             break;
+                        case "Box":
+                            raceTower.DriverBoxes(cmdArgs);
+                            break;
                         default:
                             break;
                     }
-
-
-
-
-
-
 
                 }
                 catch (Exception ex)

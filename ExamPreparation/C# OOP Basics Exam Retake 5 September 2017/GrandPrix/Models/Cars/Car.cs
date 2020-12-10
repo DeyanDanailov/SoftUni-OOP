@@ -28,6 +28,6 @@ namespace GrandPrix.Models.Cars
             }
         }
 
-        public ITyre Tyre { get; private set; }
+        public ITyre Tyre { get; set; }
     }
 }
