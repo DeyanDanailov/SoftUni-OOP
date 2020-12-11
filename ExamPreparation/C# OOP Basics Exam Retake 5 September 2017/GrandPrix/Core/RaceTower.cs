@@ -22,7 +22,7 @@ namespace GrandPrix.Core
         private TyreFactory tyreFactory;
         private CarFactory carFactory;
         private DriverFactory driverFactory;
-        private string weather;
+        private  Weather weather;
         public RaceTower()
         {
             this.drivers = new List<IDriver>();
@@ -30,18 +30,14 @@ namespace GrandPrix.Core
             this.tyreFactory = new TyreFactory();
             this.carFactory = new CarFactory();
             this.driverFactory = new DriverFactory();
-            this.weather = "Sunny";
-        }
-        public RaceTower(int numberOfLaps, int lengthOfLap)
-            : this()
-        {
-            this.numberOfLaps = numberOfLaps;
-            this.lengthOfLap = lengthOfLap;
-            this.numberOfRemainingLaps = numberOfLaps;
+            this.weather = Weather.Sunny;
         }
         public void ChangeWeather(List<string> commandArgs)
         {
-            this.weather = commandArgs[1];
+            if (!Enum.TryParse<Weather>(commandArgs[1], out this.weather))
+            {
+                throw new ArgumentException("Invalid weather type!");
+            }           
         }
 
         public void CompleteLaps(List<string> commandArgs)
@@ -111,10 +107,13 @@ namespace GrandPrix.Core
             this.drivers.Add(driver);
         }
 
-        //public void SetTrackInfo(int lapsNumber, int trackLength)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
+        public void SetTrackInfo(int lapsNumber, int trackLength)
+        {
+            this.numberOfLaps = lapsNumber;
+            this.lengthOfLap = trackLength;
+            this.numberOfRemainingLaps = this.numberOfLaps;
+        }
+
         private void Overtaking(int currentLap)
         {
             for (int j = 0; j < this.drivers.Count - 1; j++)
@@ -123,44 +122,42 @@ namespace GrandPrix.Core
                 IDriver toOvertake = this.drivers[j + 1];
                 if (overtaker is AggressiveDriver && overtaker.Car.Tyre is UltrasoftTyre)
                 {
-                    if (this.weather is "Foggy")
+                    if (this.weather == Weather.Foggy)
                     {
                         overtaker.NotFinishingReason = "Crashed";
-                        //this.drivers.Remove(overtaker);
                         this.notFinishedDrivers.Add(overtaker);
                     }
                     else if (overtaker.TotalTime - toOvertake.TotalTime <= 3)
                     {
                         overtaker.TotalTime -= 3;
                         toOvertake.TotalTime += 3;
-                        PrintOvertaking(j, overtaker, toOvertake, currentLap);
+                        PrintOvertaking(overtaker, toOvertake, currentLap);
                     }
                 }
                 else if (overtaker is EnduranceDriver && overtaker.Car.Tyre is HardTyre)
                 {
-                    if (this.weather is "Rainy")
+                    if (this.weather == Weather.Rainy)
                     {
                         overtaker.NotFinishingReason = "Crashed";
-                        //this.drivers.Remove(overtaker);
                         this.notFinishedDrivers.Add(overtaker);
                     }
                     else if (overtaker.TotalTime - toOvertake.TotalTime <= 3)
                     {
                         overtaker.TotalTime -= 3;
                         toOvertake.TotalTime += 3;
-                        PrintOvertaking(j, overtaker, toOvertake, currentLap);
+                        PrintOvertaking(overtaker, toOvertake, currentLap);
                     }
                 }
                 else if (overtaker.TotalTime - toOvertake.TotalTime <= 2)
                 {
                     overtaker.TotalTime -= 2;
                     toOvertake.TotalTime += 2;
-                    PrintOvertaking(j, overtaker, toOvertake, currentLap);
+                    PrintOvertaking(overtaker, toOvertake, currentLap);
                 }
             }
         }
 
-        private void PrintOvertaking(int j, IDriver overtaker, IDriver toOvertake, int currentLap)
+        private void PrintOvertaking(IDriver overtaker, IDriver toOvertake, int currentLap)
         {
             Console.WriteLine($"{overtaker.Name} has overtaken " +
                                                         $"{toOvertake.Name} on lap " +

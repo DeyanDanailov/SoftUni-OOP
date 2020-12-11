@@ -9,13 +9,15 @@ namespace GrandPrix.Core
     public class Engine : IEngine
     {
         private IRaceTower raceTower;
-        public Engine(int numberOfLaps, int lengthOfLap)
+        public Engine()
         {
-            this.raceTower = new RaceTower(numberOfLaps, lengthOfLap);
+            this.raceTower = new RaceTower();
         }
         public void Run()
-        {            
-            
+        {
+            var numberOfLaps = int.Parse(Console.ReadLine());
+            var lengthOfLap = int.Parse(Console.ReadLine());
+            this.raceTower.SetTrackInfo(numberOfLaps, lengthOfLap);
             while (true)
             {
                 var cmdArgs = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -25,19 +27,19 @@ namespace GrandPrix.Core
                     switch (command)
                     {
                         case "RegisterDriver":
-                            raceTower.RegisterDriver(cmdArgs);
+                            this.raceTower.RegisterDriver(cmdArgs);
                             break;
                         case "CompleteLaps":
-                            raceTower.CompleteLaps(cmdArgs);
+                            this.raceTower.CompleteLaps(cmdArgs);
                             break;
                         case "Leaderboard":
-                            Console.WriteLine(raceTower.GetLeaderboard()); 
+                            Console.WriteLine(this.raceTower.GetLeaderboard()); 
                             break;
                         case "ChangeWeather":
-                            raceTower.ChangeWeather(cmdArgs);
+                            this.raceTower.ChangeWeather(cmdArgs);
                             break;
                         case "Box":
-                            raceTower.DriverBoxes(cmdArgs);
+                            this.raceTower.DriverBoxes(cmdArgs);
                             break;
                         default:
                             break;

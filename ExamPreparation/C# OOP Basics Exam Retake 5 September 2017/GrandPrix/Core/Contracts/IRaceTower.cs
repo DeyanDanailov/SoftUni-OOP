@@ -6,7 +6,7 @@ namespace GrandPrix.Core.Contracts
 {
     public interface IRaceTower
     {
-        //void SetTrackInfo(int lapsNumber, int trackLength);
+        void SetTrackInfo(int lapsNumber, int trackLength);
 
         void RegisterDriver(List<string> commandArgs);
     

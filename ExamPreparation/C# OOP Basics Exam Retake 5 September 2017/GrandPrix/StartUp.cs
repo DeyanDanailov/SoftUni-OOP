@@ -8,9 +8,7 @@ namespace GrandPrix
     {
         static void Main(string[] args)
         {
-            var numberOfLaps = int.Parse(Console.ReadLine());
-            var lengthOfLap = int.Parse(Console.ReadLine());
-            IEngine engine = new Engine(numberOfLaps, lengthOfLap);
+            IEngine engine = new Engine();
             engine.Run();
         }
     }
