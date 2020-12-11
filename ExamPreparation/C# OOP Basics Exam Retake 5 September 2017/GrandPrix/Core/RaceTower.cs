@@ -62,7 +62,7 @@ namespace GrandPrix.Core
             this.numberOfRemainingLaps -= lapsToComplete;
             if (this.numberOfRemainingLaps == 0)
             {
-                IDriver winner = (IDriver)this.drivers.OrderBy(d => d.TotalTime).FirstOrDefault();
+                IDriver winner = this.drivers.OrderBy(d => d.TotalTime).FirstOrDefault();
                 Console.WriteLine($"{winner.Name} wins the race for {winner.TotalTime:F3} seconds.");
                 Environment.Exit(0);
             }
@@ -70,7 +70,7 @@ namespace GrandPrix.Core
 
         public void DriverBoxes(List<string> commandArgs)
         {
-            IDriver driver = (IDriver)this.drivers.FirstOrDefault(d => d.Name == commandArgs[2]);
+            IDriver driver = this.drivers.FirstOrDefault(d => d.Name == commandArgs[2]);
             driver.TotalTime += 20;
             if (commandArgs[1] == "Refuel")
             {
